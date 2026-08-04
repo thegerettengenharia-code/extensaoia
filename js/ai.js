@@ -1,21 +1,14 @@
 "use strict";
 
 const AI_PROVIDERS = {
-  nvidia:    { label: "NVIDIA",     base: "https://integrate.api.nvidia.com/v1", key: "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", maxTokens: 8000 },
-  openrouter:{ label: "OpenRouter", base: "https://openrouter.ai/api/v1",         key: "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", maxTokens: 4096 }
+  openrouter: { label: "OpenRouter", base: "https://openrouter.ai/api/v1", key: "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", maxTokens: 16000 }
 };
 
 const MODEL_OPTIONS = [
-  { id: "z-ai/glm-5.2",                  provider: "nvidia",     label: "GLM 5.2",                 desc: "Equilibrado e confiável (recomendado)" },
-  { id: "nvidia/nemotron-3-ultra-550b-a55b", provider: "nvidia", label: "Nemotron 3 Ultra",        desc: "Muito rápido" },
-  { id: "stepfun-ai/step-3.7-flash",      provider: "nvidia",     label: "Step 3.7 Flash",          desc: "Rápido" },
-  { id: "minimaxai/minimax-m3",           provider: "nvidia",     label: "MiniMax M3",             desc: "Completo" },
-  { id: "deepseek-ai/deepseek-v4-pro",    provider: "nvidia",     label: "DeepSeek V4 Pro",        desc: "Raciocínio (mais lento)" },
-  { id: "openai/gpt-oss-20b",             provider: "nvidia",     label: "GPT-OSS 20B",            desc: "Raciocínio (open source)" },
-  { id: "google/gemma-4-31b-it:free",     provider: "openrouter", label: "Gemma 4 31B (free)",     desc: "OpenRouter — pode ter limite de uso" },
-  { id: "nvidia/nemotron-3-super-120b-a12b:free", provider: "openrouter", label: "Nemotron 3 Super (free)", desc: "OpenRouter — pode ter limite de uso" },
-  { id: "openai/gpt-oss-20b:free",        provider: "openrouter", label: "GPT-OSS 20B (free)",     desc: "OpenRouter — pode ter limite de uso" },
-  { id: "openrouter/free",                provider: "openrouter", label: "Auto (free)",            desc: "OpenRouter — roteamento automático" }
+  { id: "nvidia/nemotron-3-ultra-550b-a55b:free", provider: "openrouter", label: "Nemotron 3 Ultra",   desc: "Mais detalhado (recomendado)" },
+  { id: "google/gemma-4-31b-it:free",             provider: "openrouter", label: "Gemma 4 31B",        desc: "Equilibrado" },
+  { id: "google/gemma-4-26b-a4b-it:free",          provider: "openrouter", label: "Gemma 4 26B",        desc: "Rápido e direto" },
+  { id: "openai/gpt-oss-20b:free",                 provider: "openrouter", label: "GPT-OSS 20B",        desc: "Raciocínio (mais lento)" }
 ];
 
 const SYSTEM_PROMPT = [
@@ -84,7 +77,7 @@ async function aiSend(messages) {
   const controller = new AbortController();
   window.__aiAbort = controller;
 
-  for (let attempt = 0; attempt < 2; attempt++) {
+  for (let attempt = 0; attempt < 3; attempt++) {
     const res = await fetch(c.base + "/chat/completions", {
       method: "POST",
       headers: {
@@ -100,8 +93,8 @@ async function aiSend(messages) {
       signal: controller.signal
     });
 
-    if (res.status === 429 && attempt === 0) {
-      await new Promise((r) => setTimeout(r, 3000));
+    if (res.status === 429 && attempt < 2) {
+      await new Promise((r) => setTimeout(r, attempt === 0 ? 3000 : 6000));
       continue;
     }
 

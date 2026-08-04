@@ -108,10 +108,8 @@ function updateModelStatus() {
   }
   if (note) note.textContent = "O projeto será gerado pelo modelo gratuito selecionado abaixo.";
   if (msg) {
-    const p = AI_PROVIDERS[c.provider];
     msg.textContent =
-      "Ativo: " + c.label + " · " + p.label +
-      (c.provider === "openrouter" ? " — pode estar temporariamente em limite de uso." : " — pronto para uso.");
+      "Ativo: " + c.label + " — modelo gratuito via OpenRouter. Se houver limite de uso, a IA tenta novamente automaticamente.";
   }
 }
 

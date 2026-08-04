@@ -30,9 +30,8 @@
         <span class="brand-text">Extensão<em>IA</em></span>
       </a>
       <ul class="nav-links" role="list">
-        <li><a href="#ciclo">O Ciclo PDCA</a></li>
         <li><a href="#gerador">Gerar Projeto</a></li>
-        <li><a href="#como-funciona">Como funciona</a></li>
+        <li><a href="#assistente">Assistente IA</a></li>
       </ul>
       <div class="nav-actions">
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema claro/escuro">
@@ -46,18 +45,12 @@
       </button>
     </div>
     <div class="nav-mobile" id="navMobile" hidden>
-      <a href="#ciclo">O Ciclo PDCA</a>
       <a href="#gerador">Gerar Projeto</a>
-      <a href="#como-funciona">Como funciona</a>
+      <a href="#assistente">Assistente IA</a>
     </div>
   </nav>
 
   <header class="hero" id="topo">
-    <div class="hero-bg" aria-hidden="true">
-      <div class="blob blob--1"></div>
-      <div class="blob blob--2"></div>
-      <div class="grid-overlay"></div>
-    </div>
     <div class="container hero-inner">
       <div class="hero-copy">
         <p class="eyebrow reveal">Inteligência Artificial + Ciclo PDCA</p>
@@ -68,98 +61,19 @@
         <p class="hero-sub reveal">
           O <strong>ExtensãoIA</strong> transforma suas ideias em projetos de extensão
           completos e bem estruturados, seguindo o ciclo <strong>Planejar → Executar → Verificar → Agir</strong>.
-          Ideal para editais, currículo e impacto real na comunidade.
         </p>
         <div class="hero-cta reveal">
           <a class="btn btn--primary btn--lg" href="#gerador">
             Gerar meu projeto
             <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <a class="btn btn--ghost btn--lg" href="#ciclo">Entender o PDCA</a>
+          <a class="btn btn--ghost btn--lg" href="#assistente">Conversar com a IA</a>
         </div>
-        <ul class="hero-stats reveal" role="list">
-          <li><strong>4</strong><span>fases do ciclo</span></li>
-          <li><strong>100%</strong><span>estruturação automática</span></li>
-          <li><strong>DOCX</strong><span>exportação pronta</span></li>
-        </ul>
-      </div>
-      <div class="hero-visual reveal">
-        <svg class="pdca-ring" viewBox="0 0 420 420" role="img" aria-label="Ciclo PDCA: Planejar, Executar, Verificar, Agir">
-          <defs>
-            <linearGradient id="gradStroke" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#b8860b"/>
-              <stop offset="50%" stop-color="#d4af37"/>
-              <stop offset="100%" stop-color="#f0d97a"/>
-            </linearGradient>
-            <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="6" result="b"/>
-              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
-          <circle cx="210" cy="210" r="150" fill="none" stroke="url(#gradStroke)" stroke-width="14" stroke-linecap="round" stroke-dasharray="3 22" opacity="0.9" filter="url(#softGlow)"/>
-          <g class="pdca-node" data-phase="plan">
-            <circle cx="210" cy="66" r="40" class="pdca-node-bg"/>
-            <text x="210" y="60" text-anchor="middle" class="pdca-node-letter">P</text>
-            <text x="210" y="80" text-anchor="middle" class="pdca-node-label">PLANEJAR</text>
-          </g>
-          <g class="pdca-node" data-phase="do">
-            <circle cx="354" cy="210" r="40" class="pdca-node-bg"/>
-            <text x="354" y="204" text-anchor="middle" class="pdca-node-letter">D</text>
-            <text x="354" y="224" text-anchor="middle" class="pdca-node-label">EXECUTAR</text>
-          </g>
-          <g class="pdca-node" data-phase="check">
-            <circle cx="210" cy="354" r="40" class="pdca-node-bg"/>
-            <text x="210" y="348" text-anchor="middle" class="pdca-node-letter">C</text>
-            <text x="210" y="368" text-anchor="middle" class="pdca-node-label">VERIFICAR</text>
-          </g>
-          <g class="pdca-node" data-phase="act">
-            <circle cx="66" cy="210" r="40" class="pdca-node-bg"/>
-            <text x="66" y="204" text-anchor="middle" class="pdca-node-letter">A</text>
-            <text x="66" y="224" text-anchor="middle" class="pdca-node-label">AGIR</text>
-          </g>
-          <text x="210" y="222" text-anchor="middle" class="pdca-center-text">CICLO<br/>PDCA</text>
-        </svg>
-        <div class="hero-chip hero-chip--1">Objetivos claros</div>
-        <div class="hero-chip hero-chip--2">Cronograma realista</div>
-        <div class="hero-chip hero-chip--3">Avaliação por indicadores</div>
       </div>
     </div>
-    <div class="hero-wave" aria-hidden="true"></div>
   </header>
 
   <main>
-    <section class="section" id="ciclo">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow">A metodologia</p>
-          <h2>Um ciclo, <span class="grad">quatro fases</span> que se repetem</h2>
-          <p class="section-sub">O PDCA é a espinha dorsal de projetos de extensão eficazes: planeje com rigor, execute com método, verifique com indicadores e aprimore continuamente.</p>
-        </div>
-        <div class="pdca-cards">
-          <article class="pdca-card reveal" data-phase-card="plan" style="--i:0">
-            <div class="pdca-card-phase">P</div>
-            <h3>Planejar</h3>
-            <p>Diagnóstico do problema, definição de objetivos, público-alvo, metas, indicadores e cronograma. O plano é o mapa do projeto.</p>
-          </article>
-          <article class="pdca-card reveal" data-phase-card="do" style="--i:1">
-            <div class="pdca-card-phase">D</div>
-            <h3>Executar</h3>
-            <p>Realização das atividades planejadas: oficinas, ações comunitárias, atendimentos e capacitações, com registro de tudo que acontece.</p>
-          </article>
-          <article class="pdca-card reveal" data-phase-card="check" style="--i:2">
-            <div class="pdca-card-phase">C</div>
-            <h3>Verificar</h3>
-            <p>Comparação entre o planejado e o executado por meio de indicadores, questionários e relatórios. Medir para decidir.</p>
-          </article>
-          <article class="pdca-card reveal" data-phase-card="act" style="--i:3">
-            <div class="pdca-card-phase">A</div>
-            <h3>Agir</h3>
-            <p>Correção de desvios, padronização do que funcionou e propostas de melhoria para o próximo ciclo. O ciclo nunca para.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <section class="section section--alt" id="gerador">
       <div class="container">
         <div class="section-head reveal">
@@ -335,43 +249,6 @@
         </div>
       </div>
     </section>
-
-    <section class="section" id="como-funciona">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow">Fluxo de trabalho</p>
-          <h2>Do diagnóstico à <span class="grad">ação contínua</span></h2>
-          <p class="section-sub">O ExtensãoIA aplica o ciclo PDCA tanto na elaboração quanto na condução do seu projeto.</p>
-        </div>
-        <div class="steps">
-          <div class="step reveal" style="--i:0">
-            <span class="step-num">01</span>
-            <h3>Diagnóstico</h3>
-            <p>Você descreve o problema, o público e o contexto. A IA qualifica a justificativa com dados e referências conceituais.</p>
-          </div>
-          <div class="step reveal" style="--i:1">
-            <span class="step-num">02</span>
-            <h3>Planejamento</h3>
-            <p>Objetivos, metas, indicadores, cronograma e recursos são estruturados na fase Planejar.</p>
-          </div>
-          <div class="step reveal" style="--i:2">
-            <span class="step-num">03</span>
-            <h3>Execução</h3>
-            <p>As atividades são organizadas em etapas práticas com metodologias de ação comunitária.</p>
-          </div>
-          <div class="step reveal" style="--i:3">
-            <span class="step-num">04</span>
-            <h3>Verificação</h3>
-            <p>Instrumentos de avaliação e indicadores medem o alcance das metas definidas.</p>
-          </div>
-          <div class="step reveal" style="--i:4">
-            <span class="step-num">05</span>
-            <h3>Melhoria contínua</h3>
-            <p>Ações corretivas e padronização fecham o ciclo e alimentam o próximo. É o Agir.</p>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer class="footer">
@@ -390,16 +267,8 @@
       </div>
       <div class="footer-links">
         <h4>Navegação</h4>
-        <a href="#ciclo">O Ciclo PDCA</a>
         <a href="#gerador">Gerar projeto</a>
-        <a href="#como-funciona">Como funciona</a>
-      </div>
-      <div class="footer-links">
-        <h4>PDCA</h4>
-        <a href="#gerador">Planejar</a>
-        <a href="#gerador">Executar</a>
-        <a href="#gerador">Verificar</a>
-        <a href="#gerador">Agir</a>
+        <a href="#assistente">Assistente IA</a>
       </div>
     </div>
     <div class="container footer-bottom">

@@ -21,9 +21,9 @@ function fallbackGenerate(d) {
   const objEspec = d.objetivos && d.objetivos.length
     ? d.objetivos
     : [
-        "Mapear e diagnosticar a realidade do público-alvo no contexto local.",
-        "Promover ações educativas e práticas alinhadas à área temática do projeto.",
-        "Fortalecer vínculos entre a comunidade, a universidade e os parceiros locais.",
+        "Mapear e diagnosticar os processos e as necessidades do parceiro/instituição no contexto local.",
+        "Capacitar o público-alvo em boas práticas de engenharia de produção alinhadas à área temática do projeto.",
+        "Propor e executar melhorias simples, de baixo custo e com impacto mensurável para o parceiro e a comunidade.",
         "Avaliar os resultados por meio de indicadores e instrumentos de verificação."
       ];
 
@@ -62,7 +62,7 @@ function fallbackGenerate(d) {
       ["Onde?", d.local || "Local a definir com os parceiros"],
       ["Quando?", `Durante ${d.duracao}, conforme cronograma.`],
       ["Quem?", d.equipe || "Equipe multidisciplinar do curso " + d.curso],
-      ["Como?", "Metodologia participativa, oficinas, rodas de conversa e atividades práticas."],
+      ["Como?", "Metodologia participativa e de extensão tecnológica: diagnóstico de processos, capacitações, oficinas, análises e ações de melhoria."],
       ["Quanto custa?", "Recursos materiais e de deslocamento, com apoio institucional e parcerias."]
     ]),
     "",
@@ -88,13 +88,14 @@ function fallbackGenerate(d) {
     "",
     "## 2.1 Etapas de execução",
     "",
-    "1. **Preparação** — Capacitação da equipe, alinhamento com parceiros e preparação dos materiais didáticos.",
-    "2. **Mobilização** — Divulgação nas comunidades, escolas e espaços públicos; formação de grupos de interesse.",
-    "3. **Ações práticas** — Oficinas, rodas de conversa, atendimentos e atividades educativas conduzidas de forma participativa.",
-    "4. **Registro contínuo** — Diário de campo, fotos, listas de presença e relatórios parciais alimentados ao longo de toda a execução.",
+    "1. **Preparação** — Capacitação da equipe, alinhamento com parceiros e preparação dos materiais técnicos e didáticos.",
+    "2. **Mobilização** — Divulgação nas comunidades, instituições e espaços públicos; formação de grupos de interesse.",
+    "3. **Diagnóstico técnico** — Levantamento de dados e observação dos processos do parceiro (fluxos, postos de trabalho, custos, transporte) conforme a área temática.",
+    "4. **Ações práticas** — Capacitações, oficinas e intervenções de melhoria conduzidas de forma participativa e com foco em resultados mensuráveis.",
+    "5. **Registro contínuo** — Diário de campo, fotos, listas de presença e relatórios parciais alimentados ao longo de toda a execução.",
     "",
     "## 2.2 Metodologia de ação",
-    "A execução combina **educação popular** (a partir da realidade e do saber da comunidade), **aprendizagem baseada em projetos** e **intervenção territorial**, sempre com a comunidade como protagonista e não mera receptora. Cada atividade é planejada com objetivo, público, metodologia, responsável e produto esperado.",
+    "A execução combina **extensão tecnológica** e **educação popular**: o conhecimento de engenharia de produção (processos, qualidade, produtividade, custos, segurança e logística) é aplicado a partir da realidade do parceiro e da comunidade, sempre com os beneficiários como protagonistas. Cada atividade é planejada com objetivo, público, metodologia, responsável e produto esperado.",
     "",
     "## 2.3 Distribuição de responsabilidades",
     "",

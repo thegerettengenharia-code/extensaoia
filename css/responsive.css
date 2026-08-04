@@ -1,7 +1,7 @@
 /* ============ RESPONSIVE ============ */
 @media (max-width: 1024px) {
-  .generator { grid-template-columns: 1fr; }
-  .gen-sidebar { position: static; }
+  .tpl-layout { grid-template-columns: 1fr; }
+  .tpl-aside { position: static; }
 }
 
 @media (max-width: 768px) {
@@ -14,28 +14,46 @@
   .footer-inner { grid-template-columns: 1fr; gap: 30px; }
   .hero-title { font-size: clamp(1.75rem, 6.5vw, 2.4rem); }
   .hero-sub { font-size: .98rem; }
+  .result-head { flex-direction: column; align-items: flex-start; }
 }
 
 @media (max-width: 560px) {
   .container { width: min(100% - 32px, var(--container)); }
-  .result-tabs { flex-wrap: wrap; }
-  .tab { flex: 1 1 auto; text-align: center; padding: 10px 8px; font-size: .82rem; }
-  .gen-main { padding: 20px; }
-  .panel { padding: 22px; }
+  .result-tabs {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .result-tabs::-webkit-scrollbar { display: none; }
+  .tab { flex: 0 0 auto; text-align: center; padding: 10px 14px; font-size: .82rem; white-space: nowrap; }
+  .gen-panel { padding: 20px; }
+  .gen-toolbar { flex-direction: column; align-items: stretch; }
+  .gen-model { justify-content: space-between; }
+  .gen-model select { flex: 1 1 auto; min-width: 0; width: 100%; }
+  .panel { padding: 20px 16px; }
   .hero { padding-top: calc(var(--nav-h) + 40px); }
   .hero-cta { flex-direction: column; }
   .hero-cta .btn { width: 100%; }
   .gen-actions { flex-direction: column; align-items: stretch; }
   .gen-actions .btn { width: 100%; }
   .gen-hint { text-align: center; }
-  .result-actions .btn { flex: 1 1 auto; min-width: 0; }
+  .result-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+  }
+  .result-actions .btn { width: 100%; flex: none; }
+  .result-actions .btn--primary { grid-column: 1 / -1; }
   .field input, .field select, .field textarea { font-size: 1rem; }
   .eyebrow { font-size: .7rem; }
   .section-head { margin-bottom: 40px; }
 }
 
 @media (max-width: 380px) {
-  .result-actions .btn { font-size: .78rem; padding: 9px 10px; }
-  .result-head { align-items: stretch; flex-direction: column; }
-  .result-actions { flex-wrap: wrap; }
+  .result-actions { grid-template-columns: 1fr; }
+  .result-actions .btn { font-size: .86rem; }
+  .history-card-actions { flex-direction: column; }
+  .history-card-actions .btn { width: 100%; }
 }

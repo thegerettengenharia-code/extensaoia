@@ -1,78 +1,5 @@
 "use strict";
 
-const $ = (sel, root) => (root || document).querySelector(sel);
-const $$ = (sel, root) => Array.from((root || document).querySelectorAll(sel));
-
-const App = {
-  project: null,
-  generatedTitle: ""
-};
-
-function initTheme() {
-  const saved = localStorage.getItem("eia_theme");
-  const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
-  const theme = saved || (prefersLight ? "light" : "dark");
-  document.documentElement.dataset.theme = theme;
-  $("#themeToggle").addEventListener("click", () => {
-    const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
-    document.documentElement.dataset.theme = next;
-    localStorage.setItem("eia_theme", next);
-  });
-}
-
-function initNav() {
-  const nav = $("#nav");
-  const onScroll = () => nav.classList.toggle("is-scrolled", window.scrollY > 20);
-  onScroll();
-  window.addEventListener("scroll", onScroll, { passive: true });
-
-  const burger = $("#navBurger");
-  const mobile = $("#navMobile");
-  burger.addEventListener("click", () => {
-    const open = burger.getAttribute("aria-expanded") === "true";
-    burger.setAttribute("aria-expanded", String(!open));
-    mobile.hidden = open;
-  });
-  $$("a", mobile).forEach((a) =>
-    a.addEventListener("click", () => {
-      burger.setAttribute("aria-expanded", "false");
-      mobile.hidden = true;
-    })
-  );
-}
-
-function initReveal() {
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add("is-visible");
-          io.unobserve(e.target);
-        }
-      });
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
-  );
-  $$(".reveal").forEach((el) => io.observe(el));
-}
-
-function initTypeRotate() {
-  const words = ["planejado", "executado", "verificado", "aprimorado"];
-  const el = $("#typeRotate");
-  let wi = 0, ci = 0, deleting = false;
-  const tick = () => {
-    const word = words[wi];
-    el.textContent = word.slice(0, ci);
-    if (!deleting && ci < word.length) { ci++; setTimeout(tick, 70); return; }
-    if (!deleting) { deleting = true; setTimeout(tick, 1500); return; }
-    if (ci > 0) { ci--; setTimeout(tick, 32); return; }
-    deleting = false;
-    wi = (wi + 1) % words.length;
-    setTimeout(tick, 250);
-  };
-  tick();
-}
-
 /* ---------- IA: seleção de modelo ---------- */
 function loadModelUI() {
   const sel = $("#aiModel");
@@ -147,6 +74,7 @@ function readForm() {
 
 function setLoading(on) {
   const btn = $("#btnGenerate");
+  if (!btn) return;
   btn.disabled = on;
   $(".btn-label", btn).hidden = on;
   $(".spinner", btn).hidden = !on;
@@ -165,15 +93,7 @@ async function handleGenerate(e) {
   let project = null;
 
   try {
-    if (aiIsConfigured()) {
-      const raw = await aiGenerate(buildUserPrompt(d));
-      const parts = splitByTabs(raw);
-      const title =
-        (parts.overview.match(/^#\s+(.+)$/m)?.[1] || "").replace("Visão geral do projeto", "").trim() ||
-        d.titulo ||
-        "Projeto de Extensão Acadêmica";
-      project = { title, sections: parts, templateFields: parseTemplateBlock(parts.template), isFallback: false };
-    }
+    project = await generateProjectData(d);
   } catch (err) {
     if (err.name === "AbortError") {
       toast("Geração cancelada.", true);
@@ -187,6 +107,7 @@ async function handleGenerate(e) {
   if (!project) project = fallbackGenerate(d);
   App.project = project;
   App.generatedTitle = project.isFallback ? (d.titulo || "Projeto de Extensão Acadêmica") : project.title;
+  saveProjectToStorage(project, App.generatedTitle);
   renderProject(project);
   setLoading(false);
   $("#resultado").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -239,45 +160,26 @@ function copyToClipboard() {
   );
 }
 
-function toast(msg, isErr) {
-  const t = $("#toast");
-  t.textContent = msg;
-  t.classList.toggle("err", !!isErr);
-  t.classList.add("show");
-  clearTimeout(toast._t);
-  toast._t = setTimeout(() => t.classList.remove("show"), 3200);
-}
-
 function initActions() {
   $("#extForm").addEventListener("submit", handleGenerate);
   $("#btnCopy").addEventListener("click", copyToClipboard);
   $("#btnMd").addEventListener("click", () => {
     if (App.project) exportMarkdown({ title: App.generatedTitle, sections: App.project.sections });
   });
-  $("#btnDocx").addEventListener("click", async () => {
-    if (!App.project) return;
-    try {
-      const names = await exportTemplates(App.project);
-      toast("Baixados: " + names.join(" e "));
-    } catch (err) {
-      console.error(err);
-      toast("Erro ao gerar os DOCX: " + err.message, true);
-    }
-  });
+  $("#btnDocxP").addEventListener("click", () => openTemplate("pdca"));
+  $("#btnDocxR").addEventListener("click", () => openTemplate("relatorio"));
   $("#btnPrint").addEventListener("click", () => {
     if (App.project) {
       const ok = exportPrint({ title: App.generatedTitle, sections: App.project.sections });
       if (!ok) toast("Bloqueio de pop-up detectado. Permita pop-ups para imprimir.", true);
     }
   });
-  $("#year").textContent = new Date().getFullYear();
+  const year = $("#year");
+  if (year) year.textContent = new Date().getFullYear();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  initTheme();
-  initNav();
-  initReveal();
-  initTypeRotate();
+  initSiteBase();
   loadModelUI();
   initModel();
   initTabs();

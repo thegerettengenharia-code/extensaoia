@@ -1,0 +1,128 @@
+/* ============ TEMPLATES ============ */
+.tpl-hero { padding: 84px 0 30px; text-align: center; }
+.tpl-hero h1 { font-size: clamp(1.9rem, 4.5vw, 3rem); margin-bottom: 12px; }
+.tpl-hero .section-sub { max-width: 720px; margin: 0 auto; }
+
+.tpl-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 18px 0 0;
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text-dim);
+  font-size: .86rem;
+}
+.tpl-status.is-ok { border-color: var(--primary); color: var(--text); background: var(--primary-soft); }
+
+.tpl-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.tpl-card {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: transform .3s var(--ease), border-color .3s var(--ease);
+}
+.tpl-card:hover { transform: translateY(-4px); border-color: var(--primary); }
+
+.tpl-card-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.tpl-card-head h2 { font-size: 1.3rem; margin: 0; }
+.tpl-card-desc { color: var(--text-dim); font-size: .94rem; margin: 0; }
+
+.tpl-fields {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+.tpl-fields li {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: .88rem;
+  color: var(--text-dim);
+}
+.tpl-fields li::before {
+  content: "";
+  flex: 0 0 auto;
+  width: 7px; height: 7px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+.tpl-card-actions { margin-top: auto; display: flex; gap: 10px; flex-wrap: wrap; }
+.tpl-card-actions .btn { flex: 1 1 auto; }
+
+.tpl-meta-note {
+  margin-top: 26px;
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  border: 1px dashed var(--border-strong);
+  color: var(--text-dim);
+  font-size: .88rem;
+  text-align: center;
+}
+.tpl-meta-note a { color: var(--accent); font-weight: 600; }
+
+/* ---- página do template (formulário) ---- */
+.tpl-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 26px;
+  align-items: start;
+}
+.tpl-aside {
+  position: sticky;
+  top: calc(var(--nav-h) + 20px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 22px;
+}
+.tpl-aside h3 { font-size: 1rem; margin: 0 0 10px; }
+.tpl-aside p { color: var(--text-dim); font-size: .88rem; margin: 0; }
+.tpl-aside .btn { width: 100%; margin-top: 16px; }
+
+.tpl-form {
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 28px;
+}
+.tpl-form-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.tpl-form-head h2 { font-size: 1.3rem; margin: 0; }
+.tpl-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 20px;
+}
+.tpl-form-grid .field--full { grid-column: 1 / -1; }
+
+.tpl-actions {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.tpl-hint { color: var(--text-faint); font-size: .82rem; margin: 0; }
+
+@media (max-width: 900px) {
+  .tpl-layout { grid-template-columns: 1fr; }
+  .tpl-aside { position: static; }
+  .tpl-form-grid { grid-template-columns: 1fr; }
+}

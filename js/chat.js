@@ -50,16 +50,6 @@ function chatTyping(on) {
   }
 }
 
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
-    const s = document.createElement("script");
-    s.src = src;
-    s.onload = () => resolve();
-    s.onerror = () => reject(new Error("Falha ao carregar biblioteca externa (verifique a internet)."));
-    document.head.appendChild(s);
-  });
-}
-
 let chatPdfLib = null;
 async function chatExtractPdf(file) {
   if (!window.pdfjsLib) {
@@ -193,6 +183,7 @@ async function chatSend() {
 
     App.project = project;
     App.generatedTitle = project.isFallback ? "Projeto de Extensão Acadêmica (modelo pronto)" : project.title;
+    saveProjectToStorage(project, App.generatedTitle);
     renderProject(project);
 
     chatTyping(false);
@@ -205,7 +196,7 @@ async function chatSend() {
         : '<div class="chat-note">Projeto estruturado no ciclo PDCA, pronto no painel abaixo.' + (window.__aiModelUsed ? " Modelo usado: " + window.__aiModelUsed + "." : "") + "</div>") +
       '<div class="chat-project-actions">' +
       '<button type="button" data-action="view">Ver no painel</button>' +
-      '<button type="button" data-action="doc">Baixar DOCX</button>' +
+      '<button type="button" data-action="doc">Baixar templates</button>' +
       "</div>" +
       "</div>");
 
@@ -273,10 +264,8 @@ function chatInit() {
     if (btn.dataset.action === "view") {
       $("#resultado").scrollIntoView({ behavior: "smooth", block: "start" });
     } else if (btn.dataset.action === "doc") {
-      exportTemplates(App.project).then(
-        (names) => toast("Baixados: " + names.join(" e ")),
-        (err) => toast("Erro ao gerar os DOCX: " + err.message, true)
-      );
+      saveProjectToStorage(App.project, App.generatedTitle);
+      window.location.href = "templates.html";
     }
   });
 }

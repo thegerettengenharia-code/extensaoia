@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/layout.css" />
   <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/templates.css" />
   <link rel="stylesheet" href="css/chat.css" />
   <link rel="stylesheet" href="css/responsive.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23d4af37'/%3E%3Cpath d='M50 20a30 30 0 1 0 30 30' stroke='%231a1506' stroke-width='8' fill='none' stroke-linecap='round' stroke-dasharray='1 8'/%3E%3C/svg%3E" />
@@ -32,6 +33,7 @@
       <ul class="nav-links" role="list">
         <li><a href="#gerador">Gerar Projeto</a></li>
         <li><a href="#assistente">Assistente IA</a></li>
+        <li><a href="templates.html">Templates</a></li>
       </ul>
       <div class="nav-actions">
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema claro/escuro">
@@ -47,6 +49,7 @@
     <div class="nav-mobile" id="navMobile" hidden>
       <a href="#gerador">Gerar Projeto</a>
       <a href="#assistente">Assistente IA</a>
+      <a href="templates.html">Templates</a>
     </div>
   </nav>
 
@@ -215,6 +218,41 @@
       </div>
     </section>
 
+    <section class="section section--alt" id="templates-teaser">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Documentos oficiais</p>
+          <h2>Baixe o <span class="grad">template pronto</span> que precisar</h2>
+          <p class="section-sub">Cada template tem uma página própria com todos os campos que o documento oficial pede — já preenchidos com o seu projeto. Escolha qual baixar.</p>
+        </div>
+        <div class="tpl-grid reveal">
+          <article class="tpl-card">
+            <div class="tpl-card-head">
+              <h2>Template PDCA</h2>
+              <span class="badge badge--dot is-ready"><span class="dot"></span>DOCX</span>
+            </div>
+            <p class="tpl-card-desc">Desenvolvimento do projeto estruturado no ciclo PDCA: diagnóstico, cronograma, metas e ação proposta.</p>
+            <div class="tpl-card-actions">
+              <a class="btn btn--primary btn--sm" href="pdca.html">Preencher e baixar</a>
+            </div>
+          </article>
+          <article class="tpl-card">
+            <div class="tpl-card-head">
+              <h2>Relatório Final</h2>
+              <span class="badge badge--dot is-ready"><span class="dot"></span>DOCX</span>
+            </div>
+            <p class="tpl-card-desc">Relatório final da ação: local, resultados, conclusão, depoimentos e relato em primeira pessoa.</p>
+            <div class="tpl-card-actions">
+              <a class="btn btn--primary btn--sm" href="relatorio.html">Preencher e baixar</a>
+            </div>
+          </article>
+        </div>
+        <p class="tpl-meta-note reveal">
+          Veja a <a href="templates.html">página completa de templates</a> com os campos de cada documento.
+        </p>
+      </div>
+    </section>
+
     <section class="section result-section" id="resultado" hidden>
       <div class="container">
         <div class="result-head reveal">
@@ -226,7 +264,9 @@
             <button class="btn btn--ghost btn--sm" id="btnCopy" type="button">Copiar</button>
             <button class="btn btn--ghost btn--sm" id="btnMd" type="button">Markdown</button>
             <button class="btn btn--ghost btn--sm" id="btnPrint" type="button">Imprimir / PDF</button>
-            <button class="btn btn--primary btn--sm" id="btnDocx" type="button">Baixar DOCX (PDCA + Relatório)</button>
+            <a class="btn btn--primary btn--sm" href="templates.html">Baixar templates</a>
+            <button class="btn btn--ghost btn--sm" id="btnDocxP" type="button">Baixar PDCA</button>
+            <button class="btn btn--ghost btn--sm" id="btnDocxR" type="button">Baixar Relatório</button>
           </div>
         </div>
 
@@ -267,6 +307,7 @@
         <h4>Navegação</h4>
         <a href="#gerador">Gerar projeto</a>
         <a href="#assistente">Assistente IA</a>
+        <a href="templates.html">Templates</a>
       </div>
     </div>
     <div class="container footer-bottom">
@@ -281,6 +322,7 @@
   <script src="js/ai.js"></script>
   <script src="js/export.js"></script>
   <script src="js/templates.js"></script>
+  <script src="js/site.js"></script>
   <script src="js/app.js"></script>
   <script src="js/chat.js"></script>
 </body>

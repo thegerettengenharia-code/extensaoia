@@ -16,6 +16,54 @@ const RELATORIO_TOKENS = [
 
 const SINGLE_LINE_TOKENS = new Set(["aluno", "ra", "polo"]);
 
+const TEMPLATE_META = {
+  pdca: {
+    key: "pdca",
+    file: TEMPLATE_PDCA,
+    title: "Template PDCA",
+    tagline: "Desenvolvimento do projeto (ciclo PDCA)",
+    description:
+      "Modelo oficial de desenvolvimento do projeto de extensão, estruturado nas fases Planejar, Executar, Verificar e Agir — do diagnóstico ao cronograma e à proposta final.",
+    tokens: PDCA_TOKENS,
+    fields: {
+      aluno: "Nome do(a) aluno(a)",
+      ods_metas: "Metas dos ODS aderentes (uma por linha)",
+      imersao: "Imersão — itens da fase (um por linha)",
+      ideacao: "Ideação — itens da fase (um por linha)",
+      prototipacao: "Prototipação — itens da fase (um por linha)",
+      ideias_anotacoes: "Ideias e anotações",
+      cronograma: "Cronograma (Atividade — responsável — período)",
+      mudancas: "Mudanças / ajustes de estratégia",
+      acao_proposta: "Ação proposta",
+      referencias: "Referências"
+    }
+  },
+  relatorio: {
+    key: "relatorio",
+    file: TEMPLATE_RELATORIO,
+    title: "Relatório Final",
+    tagline: "Relatório final da ação de extensão",
+    description:
+      "Modelo oficial do relatório final da extensão: local de atuação, o que aconteceu durante a ação, resultados, conclusão, depoimentos e relato em primeira pessoa.",
+    tokens: RELATORIO_TOKENS,
+    fields: {
+      aluno: "Nome do(a) aluno(a)",
+      ra: "RA",
+      polo: "Polo / Unidade",
+      ods_metas: "Metas dos ODS aderentes (uma por linha)",
+      local: "Local / Instituição de atuação",
+      durante_acao: "Durante a ação",
+      mudanca_estrategia: "Mudança de estratégia",
+      resultado_acao: "Resultado da ação",
+      conclusao: "Conclusão",
+      depoimentos: "Depoimentos",
+      relato: "Relato da experiência (1ª pessoa)",
+      depoimento_instituicao: "Depoimento da instituição",
+      referencias: "Referências"
+    }
+  }
+};
+
 let docxLibPromise = null;
 
 function loadDocxLib() {
@@ -100,12 +148,4 @@ async function exportTemplateDoc(fileName, tokens, fields) {
   });
   downloadBlob(blob, fileName);
   return fileName;
-}
-
-async function exportTemplates(project) {
-  const fields = (project && project.templateFields) || {};
-  const done = [];
-  done.push(await exportTemplateDoc(TEMPLATE_PDCA, PDCA_TOKENS, fields));
-  done.push(await exportTemplateDoc(TEMPLATE_RELATORIO, RELATORIO_TOKENS, fields));
-  return done;
 }

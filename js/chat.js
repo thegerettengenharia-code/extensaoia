@@ -2,8 +2,7 @@
 
 const Chat = {
   history: [],
-  busy: false,
-  welcomeShown: false
+  busy: false
 };
 
 function chatEscape(s) {
@@ -22,14 +21,6 @@ function chatAdd(role, html, extra) {
   w.appendChild(div);
   w.scrollTop = w.scrollHeight;
   return div;
-}
-
-function chatWelcome() {
-  if (Chat.welcomeShown) return;
-  Chat.welcomeShown = true;
-  chatAdd("ai",
-    "Olá! Descreva o <strong>tema</strong> do seu projeto de extensão do <strong>Programa de Contexto à Comunidade</strong> (Engenharia de Produção), o <strong>público-alvo</strong> e o <strong>problema</strong> que motiva a ação — ou cole o texto de um edital.<br />" +
-    "Se faltar alguma informação essencial, a IA <strong>faz perguntas</strong> antes de gerar. Quando o projeto ficar pronto, você baixa os <strong>documentos oficiais já preenchidos</strong> (PDCA e Relatório Final).");
 }
 
 function chatTyping(on) {
@@ -182,8 +173,6 @@ async function chatSend() {
 }
 
 function chatInit() {
-  chatWelcome();
-
   $("#chatSend").addEventListener("click", chatSend);
 
   $("#chatText").addEventListener("keydown", (e) => {

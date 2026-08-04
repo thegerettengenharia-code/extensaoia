@@ -15,6 +15,8 @@ function chatEscape(s) {
 
 function chatAdd(role, html, extra) {
   const w = $("#chatWindow");
+  const empty = $(".chat-empty", w);
+  if (empty) empty.remove();
   const div = document.createElement("div");
   div.className = "chat-msg chat-msg--" + role + (extra ? " " + extra : "");
   div.innerHTML = '<div class="chat-bubble">' + html + "</div>";
@@ -174,6 +176,14 @@ async function chatSend() {
 
 function chatInit() {
   $("#chatSend").addEventListener("click", chatSend);
+
+  $$("#chatSuggest .chat-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
+      const ta = $("#chatText");
+      ta.value = chip.dataset.idea || "";
+      ta.focus();
+    });
+  });
 
   $("#chatText").addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !e.shiftKey) {

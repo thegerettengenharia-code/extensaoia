@@ -168,13 +168,22 @@
       <div class="container">
         <div class="section-head">
           <p class="eyebrow">Assistente IA</p>
-          <h2>Descreva sua ideia e <span class="grad">receba o projeto</span></h2>
-          <p class="chat-welcome">Olá! Descreva o <strong>tema</strong> do seu projeto de extensão do <strong>Programa de Contexto à Comunidade</strong> (Engenharia de Produção), o <strong>público-alvo</strong> e o <strong>problema</strong> que motiva a ação — ou cole o texto de um edital.<br />Se faltar alguma informação essencial, a IA <strong>faz perguntas</strong> antes de gerar. Quando o projeto ficar pronto, você baixa os <strong>documentos oficiais já preenchidos</strong> (PDCA e Relatório Final).</p>
+          <h2>Conte sua ideia e <span class="grad">receba o projeto pronto</span></h2>
+          <p class="chat-welcome">A IA estrutura o projeto no ciclo <strong>PDCA</strong>, pergunta o que faltar e entrega os <strong>documentos oficiais já preenchidos</strong> (PDCA e Relatório Final).</p>
         </div>
         <div class="chat">
-          <div class="chat-window" id="chatWindow" role="log" aria-live="polite" aria-label="Conversa com a IA"></div>
+          <div class="chat-suggest" id="chatSuggest" aria-label="Sugestões de ideia">
+            <span class="chat-suggest-label">Ideias de exemplo:</span>
+            <button type="button" class="chat-chip" data-idea="Quero um projeto de reciclagem e educação ambiental para uma escola municipal, com 300 alunos, para reduzir o lixo orgânico.">Reciclagem em escola</button>
+            <button type="button" class="chat-chip" data-idea="Quero um projeto de ergonomia e prevenção de LER/DORT para funcionários de uma pequena fábrica que trabalham 8h por dia em postos fixos.">Ergonomia no trabalho</button>
+            <button type="button" class="chat-chip" data-idea="Quero um projeto para melhorar o controle de estoque e reduzir desperdícios na cozinha de uma associação comunitária.">Controle de estoque</button>
+            <button type="button" class="chat-chip" data-idea="Quero um projeto de logística e distribuição de alimentos para uma ONG que atende 200 famílias por mês.">Logística de ONG</button>
+          </div>
+          <div class="chat-window" id="chatWindow" role="log" aria-live="polite" aria-label="Conversa com a IA">
+            <div class="chat-empty">Sua conversa com a IA aparece aqui. Escolha um exemplo acima ou digite sua ideia abaixo.</div>
+          </div>
           <div class="chat-input">
-            <textarea id="chatText" rows="2" placeholder="Descreva sua ideia, tema ou cole um edital… Se faltarem dados, a IA pergunta. Enter envia, Shift+Enter quebra linha."></textarea>
+            <textarea id="chatText" rows="2" placeholder="Ex.: capacitação em boas práticas para uma padaria do bairro…"></textarea>
             <button class="chat-send" id="chatSend" type="button">
               Enviar
               <span class="spinner" hidden aria-hidden="true"></span>

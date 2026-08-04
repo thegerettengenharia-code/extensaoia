@@ -11,6 +11,38 @@
 }
 .chat-welcome strong { color: var(--text); }
 
+.chat-suggest {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elev);
+}
+.chat-suggest-label { font-size: .8rem; font-weight: 600; color: var(--text-dim); }
+.chat-chip {
+  border: 1px solid var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+  border-radius: 100px;
+  padding: 7px 13px;
+  font-size: .8rem;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: background .15s var(--ease), border-color .15s var(--ease);
+}
+.chat-chip:hover { background: var(--surface-strong); border-color: var(--primary); }
+
+.chat-empty {
+  color: var(--text-faint);
+  font-size: .9rem;
+  line-height: 1.6;
+  text-align: center;
+  margin: auto;
+  padding: 30px 16px;
+}
+
 .chat {
   max-width: 760px;
   margin-inline: auto;

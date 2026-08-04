@@ -178,17 +178,7 @@ button, input, select, textarea {
 .section-head h2 { font-size: clamp(1.7rem, 3.4vw, 2.5rem); }
 .section-sub { color: var(--text-dim); font-size: 1.02rem; }
 
-/* Reveal animation */
-.reveal {
-  opacity: 0;
-  transform: translateY(26px);
-  transition: opacity .7s var(--ease), transform .7s var(--ease);
-  transition-delay: calc(var(--i, 0) * 90ms);
-}
-.reveal.is-visible { opacity: 1; transform: none; }
-
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-  .reveal { opacity: 1; transform: none; }
 }

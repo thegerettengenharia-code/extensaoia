@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="ExtensãoIA — Gere projetos de extensão acadêmica de Engenharia de Produção completos com Inteligência Artificial, estruturados pelo ciclo PDCA." />
+  <meta name="description" content="ExtensãoIA — Gere projetos de extensão acadêmica de Engenharia de Produção completos com Inteligência Artificial, estruturados pelo ciclo PDCA, e baixe os templates preenchidos." />
   <title>ExtensãoIA — Projetos de Extensão com IA + PDCA</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/layout.css" />
   <link rel="stylesheet" href="css/components.css" />
-  <link rel="stylesheet" href="css/templates.css" />
   <link rel="stylesheet" href="css/chat.css" />
   <link rel="stylesheet" href="css/responsive.css" />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%23d4af37'/%3E%3Cpath d='M50 20a30 30 0 1 0 30 30' stroke='%231a1506' stroke-width='8' fill='none' stroke-linecap='round' stroke-dasharray='1 8'/%3E%3C/svg%3E" />
@@ -33,7 +32,6 @@
       <ul class="nav-links" role="list">
         <li><a href="#gerador">Gerar Projeto</a></li>
         <li><a href="#assistente">Assistente IA</a></li>
-        <li><a href="templates.html">Templates</a></li>
       </ul>
       <div class="nav-actions">
         <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema claro/escuro">
@@ -49,30 +47,23 @@
     <div class="nav-mobile" id="navMobile" hidden>
       <a href="#gerador">Gerar Projeto</a>
       <a href="#assistente">Assistente IA</a>
-      <a href="templates.html">Templates</a>
     </div>
   </nav>
 
   <header class="hero" id="topo">
     <div class="container hero-inner">
-      <div class="hero-copy">
-        <p class="eyebrow reveal">Inteligência Artificial + Ciclo PDCA</p>
-        <h1 class="hero-title reveal">
-          Projetos de extensão acadêmica <span class="grad">prontos em minutos</span>,
-          <span class="type-rotate" id="typeRotate">planejados</span> do início ao fim.
-        </h1>
-        <p class="hero-sub reveal">
-          O <strong>ExtensãoIA</strong> transforma suas ideias em projetos de extensão do
-          <strong>Programa de Contexto à Comunidade</strong> do curso de Engenharia de Produção,
-          seguindo o ciclo <strong>Planejar → Executar → Verificar → Agir</strong>.
-        </p>
-        <div class="hero-cta reveal">
-          <a class="btn btn--primary btn--lg" href="#gerador">
-            Gerar meu projeto
-            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <a class="btn btn--ghost btn--lg" href="#assistente">Conversar com a IA</a>
-        </div>
+      <p class="eyebrow">Programa de Contexto à Comunidade · Engenharia de Produção</p>
+      <h1 class="hero-title">
+        Projetos de extensão <span class="grad">prontos em minutos</span>,
+        estruturados no ciclo PDCA.
+      </h1>
+      <p class="hero-sub">
+        O <strong>ExtensãoIA</strong> transforma suas ideias em projetos completos de extensão
+        — Planejar, Executar, Verificar e Agir — e gera os templates oficiais já preenchidos.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn--primary btn--lg" href="#gerador">Gerar meu projeto</a>
+        <a class="btn btn--ghost btn--lg" href="#assistente">Conversar com a IA</a>
       </div>
     </div>
   </header>
@@ -80,182 +71,121 @@
   <main>
     <section class="section section--alt" id="gerador">
       <div class="container">
-        <div class="section-head reveal">
+        <div class="section-head">
           <p class="eyebrow">O gerador</p>
           <h2>Conte sua ideia. <span class="grad">Nós estruturamos tudo.</span></h2>
-          <p class="section-sub">Preencha os campos abaixo e a inteligência artificial monta um projeto completo de extensão do <strong>Programa de Contexto à Comunidade</strong> (Engenharia de Produção), seguindo o ciclo PDCA.</p>
+          <p class="section-sub">Preencha os campos abaixo e a inteligência artificial monta o projeto completo de extensão, seguindo o ciclo PDCA com as referências obrigatórias.</p>
         </div>
 
-        <div class="generator" id="generator">
-          <aside class="gen-sidebar reveal">
-            <div class="provider-card" id="modelCard">
-              <div class="provider-card-head">
-                <h3>Modelo de IA</h3>
-                <span class="badge badge--dot is-ready" id="providerStatus"><span class="dot"></span>IA conectada</span>
-              </div>
-              <p class="provider-note" id="providerNote">O projeto será gerado pelo modelo gratuito selecionado abaixo.</p>
-              <div class="field">
-                <label for="aiModel">Modelo de inteligência artificial</label>
-                <select id="aiModel"></select>
-              </div>
-              <p class="provider-status-msg" id="providerMsg"></p>
+        <div class="gen-panel" id="generator">
+          <div class="gen-toolbar">
+            <div class="gen-model">
+              <label for="aiModel">Modelo de IA</label>
+              <select id="aiModel" aria-label="Modelo de inteligência artificial"></select>
             </div>
-            <details class="provider-help">
-              <summary>Quais modelos estão disponíveis?</summary>
-              <ul>
-                <li>Modelos <strong>gratuitos</strong> servidos pela <strong>OpenRouter</strong> (com CORS liberado para o navegador), incluindo modelos NVIDIA (Nemotron) e Google (Gemma).</li>
-                <li>Por serem gratuitos e compartilhados, podem ficar temporariamente em limite de uso — o site tenta novamente automaticamente.</li>
-                <li>Nenhuma chave é necessária: tudo já está configurado.</li>
-              </ul>
-            </details>
-          </aside>
-
-          <div class="gen-main reveal">
-            <form id="extForm" novalidate>
-              <div class="form-grid">
-                <div class="field field--full">
-                  <label for="fTitulo">Título do projeto <em>(opcional — a IA pode sugerir)</em></label>
-                  <input id="fTitulo" type="text" placeholder="ex.: Saúde em Movimento: prevenção comunitária" />
-                </div>
-                <div class="field">
-                  <label for="fAluno">Nome do aluno(a)</label>
-                  <input id="fAluno" type="text" placeholder="ex.: Maria da Silva" />
-                </div>
-                <div class="field">
-                  <label for="fRA">RA</label>
-                  <input id="fRA" type="text" placeholder="ex.: 2024.1.0123" />
-                </div>
-                <div class="field">
-                  <label for="fPolo">Polo / Unidade</label>
-                  <input id="fPolo" type="text" placeholder="ex.: Polo Centro" />
-                </div>
-                <div class="field">
-                  <label for="fCurso">Curso / Programa</label>
-                  <input id="fCurso" type="text" required placeholder="ex.: Engenharia de Produção" />
-                </div>
-                <div class="field">
-                  <label for="fArea">Área temática</label>
-                  <select id="fArea">
-                    <option value="Engenharia do Produto" selected>I - Engenharia do Produto</option>
-                    <option value="Ergonomia e Segurança do Trabalho">II - Ergonomia e Segurança do Trabalho</option>
-                    <option value="Gerência de Produção">III - Gerência de Produção</option>
-                    <option value="Gestão Econômica">IV - Gestão Econômica</option>
-                    <option value="Transporte e Logística">V - Transporte e Logística</option>
-                  </select>
-                </div>
-                <div class="field field--full">
-                  <label for="fPublico">Público-alvo / Comunidade</label>
-                  <input id="fPublico" type="text" required placeholder="ex.: famílias de baixa renda do bairro X, 200 pessoas" />
-                </div>
-                <div class="field field--full">
-                  <label for="fProblema">Problema identificado / Justificativa</label>
-                  <textarea id="fProblema" rows="4" required placeholder="Descreva o problema que motiva o projeto: dados, contexto, urgência..."></textarea>
-                </div>
-                <div class="field">
-                  <label for="fLocal">Instituição / Local de atuação</label>
-                  <input id="fLocal" type="text" placeholder="ex.: escola municipal, associação de bairro, ONG, prefeitura" />
-                </div>
-                <div class="field">
-                  <label for="fDuracao">Duração</label>
-                  <select id="fDuracao">
-                    <option value="1 semestre">1 semestre</option>
-                    <option value="2 semestres" selected>2 semestres</option>
-                    <option value="1 ano">1 ano</option>
-                  </select>
-                </div>
-                <div class="field field--full">
-                  <label for="fObjetivos">Objetivos específicos (opcional)</label>
-                  <textarea id="fObjetivos" rows="3" placeholder="Um por linha. Se deixar vazio, a IA define."></textarea>
-                </div>
-                <div class="field">
-                  <label for="fEquipe">Equipe (opcional)</label>
-                  <input id="fEquipe" type="text" placeholder="ex.: 4 discentes, 1 docente" />
-                </div>
-                <div class="field">
-                  <label for="fParcerias">Parcerias / Recursos (opcional)</label>
-                  <input id="fParcerias" type="text" placeholder="ex.: escola municipal, prefeitura" />
-                </div>
-              </div>
-              <div class="gen-actions">
-                <button class="btn btn--primary btn--lg" id="btnGenerate" type="submit">
-                  <span class="btn-label">Gerar projeto com IA</span>
-                  <span class="spinner" hidden aria-hidden="true"></span>
-                </button>
-                <p class="gen-hint" id="genHint">Os campos com * são essenciais para um bom resultado.</p>
-              </div>
-            </form>
+            <span class="badge badge--dot is-ready" id="providerStatus"><span class="dot"></span>IA conectada</span>
+            <p class="provider-status-msg" id="providerMsg"></p>
           </div>
+
+          <form id="extForm" novalidate>
+            <div class="form-grid">
+              <div class="field field--full">
+                <label for="fTitulo">Título do projeto <em>(opcional — a IA pode sugerir)</em></label>
+                <input id="fTitulo" type="text" placeholder="ex.: Saúde em Movimento: prevenção comunitária" />
+              </div>
+              <div class="field">
+                <label for="fAluno">Nome do aluno(a)</label>
+                <input id="fAluno" type="text" placeholder="ex.: Maria da Silva" />
+              </div>
+              <div class="field">
+                <label for="fRA">RA</label>
+                <input id="fRA" type="text" placeholder="ex.: 2024.1.0123" />
+              </div>
+              <div class="field">
+                <label for="fPolo">Polo / Unidade</label>
+                <input id="fPolo" type="text" placeholder="ex.: Polo Centro" />
+              </div>
+              <div class="field">
+                <label for="fCurso">Curso / Programa</label>
+                <input id="fCurso" type="text" required placeholder="ex.: Engenharia de Produção" />
+              </div>
+              <div class="field">
+                <label for="fArea">Área temática</label>
+                <select id="fArea">
+                  <option value="Engenharia do Produto" selected>I - Engenharia do Produto</option>
+                  <option value="Ergonomia e Segurança do Trabalho">II - Ergonomia e Segurança do Trabalho</option>
+                  <option value="Gerência de Produção">III - Gerência de Produção</option>
+                  <option value="Gestão Econômica">IV - Gestão Econômica</option>
+                  <option value="Transporte e Logística">V - Transporte e Logística</option>
+                </select>
+              </div>
+              <div class="field field--full">
+                <label for="fPublico">Público-alvo / Comunidade</label>
+                <input id="fPublico" type="text" required placeholder="ex.: famílias de baixa renda do bairro X, 200 pessoas" />
+              </div>
+              <div class="field field--full">
+                <label for="fProblema">Problema identificado / Justificativa</label>
+                <textarea id="fProblema" rows="4" required placeholder="Descreva o problema que motiva o projeto: dados, contexto, urgência..."></textarea>
+              </div>
+              <div class="field">
+                <label for="fLocal">Instituição / Local de atuação</label>
+                <input id="fLocal" type="text" placeholder="ex.: escola municipal, associação de bairro, ONG, prefeitura" />
+              </div>
+              <div class="field">
+                <label for="fDuracao">Duração</label>
+                <select id="fDuracao">
+                  <option value="1 semestre">1 semestre</option>
+                  <option value="2 semestres" selected>2 semestres</option>
+                  <option value="1 ano">1 ano</option>
+                </select>
+              </div>
+              <div class="field field--full">
+                <label for="fObjetivos">Objetivos específicos (opcional)</label>
+                <textarea id="fObjetivos" rows="3" placeholder="Um por linha. Se deixar vazio, a IA define."></textarea>
+              </div>
+              <div class="field">
+                <label for="fEquipe">Equipe (opcional)</label>
+                <input id="fEquipe" type="text" placeholder="ex.: 4 discentes, 1 docente" />
+              </div>
+              <div class="field">
+                <label for="fParcerias">Parcerias / Recursos (opcional)</label>
+                <input id="fParcerias" type="text" placeholder="ex.: escola municipal, prefeitura" />
+              </div>
+            </div>
+            <div class="gen-actions">
+              <button class="btn btn--primary btn--lg" id="btnGenerate" type="submit">
+                <span class="btn-label">Gerar projeto com IA</span>
+                <span class="spinner" hidden aria-hidden="true"></span>
+              </button>
+              <p class="gen-hint" id="genHint">Os campos com * são essenciais para um bom resultado.</p>
+            </div>
+          </form>
         </div>
       </div>
     </section>
 
     <section class="section" id="assistente">
       <div class="container">
-        <div class="section-head reveal">
+        <div class="section-head">
           <p class="eyebrow">Assistente IA</p>
-          <h2>Converse com a IA ou <span class="grad">envie um arquivo</span></h2>
-          <p class="section-sub">Digite sua ideia, cole o texto de um edital ou envie um documento (PDF, DOCX ou TXT). A IA analisa o conteúdo e entrega o projeto pronto no padrão do site — ciclo PDCA e referências obrigatórias.</p>
+          <h2>Descreva sua ideia e <span class="grad">receba o projeto</span></h2>
         </div>
-        <div class="chat reveal">
+        <div class="chat">
           <div class="chat-window" id="chatWindow" role="log" aria-live="polite" aria-label="Conversa com a IA"></div>
-          <div class="chat-filebar" id="chatFilebar" hidden>
-            <span class="chat-filename" id="chatFileName"></span>
-            <button class="chat-file-remove" id="chatFileRemove" type="button">Remover</button>
-          </div>
           <div class="chat-input">
-            <button class="chat-attach" id="chatAttach" type="button" aria-label="Anexar arquivo" title="Anexar arquivo (PDF, DOCX, TXT)">
-              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M21 12.5 12.6 21a5 5 0 0 1-7-7l8.4-8.5a3.5 3.5 0 0 1 5 5l-8.4 8.5a2 2 0 0 1-2.8-2.8l8.4-8.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </button>
-            <input type="file" id="chatFileInput" accept=".txt,.md,.pdf,.docx" hidden />
-            <textarea id="chatText" rows="2" placeholder="Descreva o projeto, cole um edital ou faça uma pergunta… Enter envia, Shift+Enter quebra linha."></textarea>
-            <button class="chat-send" id="chatSend" type="button" aria-label="Enviar mensagem">
-              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <textarea id="chatText" rows="2" placeholder="Descreva sua ideia de projeto ou cole um edital… Enter envia, Shift+Enter quebra linha."></textarea>
+            <button class="chat-send" id="chatSend" type="button">
+              Enviar
               <span class="spinner" hidden aria-hidden="true"></span>
             </button>
           </div>
-          <p class="chat-hint">A IA usa modelos gratuitos (NVIDIA e OpenRouter) e segue as regras do site: projetos do Programa de Contexto à Comunidade (Engenharia de Produção) estruturados no ciclo PDCA, com apenas as referências bibliográficas obrigatórias.</p>
         </div>
       </div>
     </section>
 
-    <section class="section section--alt" id="templates-teaser">
+    <section class="section section--alt result-section" id="resultado" hidden>
       <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow">Documentos oficiais</p>
-          <h2>Baixe o <span class="grad">template pronto</span> que precisar</h2>
-          <p class="section-sub">Cada template tem uma página própria com todos os campos que o documento oficial pede — já preenchidos com o seu projeto. Escolha qual baixar.</p>
-        </div>
-        <div class="tpl-grid reveal">
-          <article class="tpl-card">
-            <div class="tpl-card-head">
-              <h2>Template PDCA</h2>
-              <span class="badge badge--dot is-ready"><span class="dot"></span>DOCX</span>
-            </div>
-            <p class="tpl-card-desc">Desenvolvimento do projeto estruturado no ciclo PDCA: diagnóstico, cronograma, metas e ação proposta.</p>
-            <div class="tpl-card-actions">
-              <a class="btn btn--primary btn--sm" href="pdca.html">Preencher e baixar</a>
-            </div>
-          </article>
-          <article class="tpl-card">
-            <div class="tpl-card-head">
-              <h2>Relatório Final</h2>
-              <span class="badge badge--dot is-ready"><span class="dot"></span>DOCX</span>
-            </div>
-            <p class="tpl-card-desc">Relatório final da ação: local, resultados, conclusão, depoimentos e relato em primeira pessoa.</p>
-            <div class="tpl-card-actions">
-              <a class="btn btn--primary btn--sm" href="relatorio.html">Preencher e baixar</a>
-            </div>
-          </article>
-        </div>
-        <p class="tpl-meta-note reveal">
-          Veja a <a href="templates.html">página completa de templates</a> com os campos de cada documento.
-        </p>
-      </div>
-    </section>
-
-    <section class="section result-section" id="resultado" hidden>
-      <div class="container">
-        <div class="result-head reveal">
+        <div class="result-head">
           <div>
             <p class="eyebrow">Seu projeto</p>
             <h2 id="resultTitle" class="result-title">Projeto gerado</h2>
@@ -264,27 +194,11 @@
             <button class="btn btn--ghost btn--sm" id="btnCopy" type="button">Copiar</button>
             <button class="btn btn--ghost btn--sm" id="btnMd" type="button">Markdown</button>
             <button class="btn btn--ghost btn--sm" id="btnPrint" type="button">Imprimir / PDF</button>
-            <a class="btn btn--primary btn--sm" href="templates.html">Baixar templates</a>
-            <button class="btn btn--ghost btn--sm" id="btnDocxP" type="button">Baixar PDCA</button>
-            <button class="btn btn--ghost btn--sm" id="btnDocxR" type="button">Baixar Relatório</button>
+            <button class="btn btn--primary btn--sm" id="btnDocxP" type="button">Baixar PDCA (DOCX)</button>
+            <button class="btn btn--ghost btn--sm" id="btnDocxR" type="button">Baixar Relatório (DOCX)</button>
           </div>
         </div>
-
-        <div class="result-tabs reveal" role="tablist" aria-label="Fases do projeto">
-          <button class="tab tab--active" role="tab" aria-selected="true" data-tab="overview">Visão geral</button>
-          <button class="tab" role="tab" aria-selected="false" data-tab="plan">1 · Planejar</button>
-          <button class="tab" role="tab" aria-selected="false" data-tab="do">2 · Executar</button>
-          <button class="tab" role="tab" aria-selected="false" data-tab="check">3 · Verificar</button>
-          <button class="tab" role="tab" aria-selected="false" data-tab="act">4 · Agir</button>
-        </div>
-
-        <div class="result-panels reveal" id="resultPanels">
-          <div class="panel" id="panel-overview" role="tabpanel"></div>
-          <div class="panel" id="panel-plan" role="tabpanel" hidden></div>
-          <div class="panel" id="panel-do" role="tabpanel" hidden></div>
-          <div class="panel" id="panel-check" role="tabpanel" hidden></div>
-          <div class="panel" id="panel-act" role="tabpanel" hidden></div>
-        </div>
+        <div id="resultDoc"></div>
       </div>
     </section>
   </main>
@@ -307,7 +221,6 @@
         <h4>Navegação</h4>
         <a href="#gerador">Gerar projeto</a>
         <a href="#assistente">Assistente IA</a>
-        <a href="templates.html">Templates</a>
       </div>
     </div>
     <div class="container footer-bottom">

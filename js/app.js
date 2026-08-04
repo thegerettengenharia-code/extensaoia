@@ -27,13 +27,11 @@ function loadModelUI() {
 function updateModelStatus() {
   const c = aiConfig();
   const status = $("#providerStatus");
-  const note = $("#providerNote");
   const msg = $("#providerMsg");
   if (status) {
     status.classList.add("is-ready");
     status.innerHTML = '<span class="dot"></span>IA conectada';
   }
-  if (note) note.textContent = "O projeto será gerado pelo modelo gratuito selecionado abaixo.";
   if (msg) {
     msg.textContent =
       "Ativo: " + c.label + " — modelo gratuito via OpenRouter. Se houver limite de uso, a IA tenta novamente automaticamente.";
@@ -76,8 +74,10 @@ function setLoading(on) {
   const btn = $("#btnGenerate");
   if (!btn) return;
   btn.disabled = on;
-  $(".btn-label", btn).hidden = on;
-  $(".spinner", btn).hidden = !on;
+  const label = $(".btn-label", btn);
+  if (label) label.hidden = on;
+  const spin = $(".spinner", btn);
+  if (spin) spin.hidden = !on;
   $("#genHint").textContent = on
     ? "A IA está trabalhando. Modelos gratuitos podem levar de 1 a 5 minutos — se um ficar ocupado, troco automaticamente para outro…"
     : "Os campos com * são essenciais para um bom resultado.";
@@ -117,36 +117,34 @@ function renderProject(p) {
   $("#resultTitle").textContent = App.generatedTitle;
   $("#resultado").hidden = false;
 
-  const tabs = { overview: "Visão geral", plan: "1 · Planejar", do: "2 · Executar", check: "3 · Verificar", act: "4 · Agir" };
-  for (const key of Object.keys(tabs)) {
-    const panel = $("#panel-" + key);
-    panel.innerHTML = '<div class="rich"></div>';
-    $(".rich", panel).innerHTML = mdToHtml(p.sections[key]);
-  }
+  const doc = $("#resultDoc");
+  const labels = {
+    overview: "",
+    plan: "1 · Planejar",
+    do: "2 · Executar",
+    check: "3 · Verificar",
+    act: "4 · Agir"
+  };
+  const order = ["overview", "plan", "do", "check", "act"];
+
+  doc.innerHTML = order
+    .map((key) => {
+      const md = (p.sections && p.sections[key]) || "";
+      if (!md.trim()) return "";
+      const label = labels[key];
+      return (
+        '<div class="pdca-card pdca-card--' + key + '">' +
+        (label ? '<div class="pdca-phase">' + label + "</div>" : "") +
+        '<div class="rich">' + mdToHtml(md) + "</div>" +
+        "</div>"
+      );
+    })
+    .join("");
 
   if (p.isFallback) {
     toast("Projeto gerado no modo modelo pronto (sem IA).");
   } else {
     toast("Projeto gerado com IA com sucesso!" + (window.__aiModelUsed ? " Modelo: " + window.__aiModelUsed : ""));
-  }
-
-  switchTab("overview");
-}
-
-function initTabs() {
-  $$(".tab").forEach((tab) => {
-    tab.addEventListener("click", () => switchTab(tab.dataset.tab));
-  });
-}
-
-function switchTab(name) {
-  $$(".tab").forEach((t) => {
-    const active = t.dataset.tab === name;
-    t.classList.toggle("tab--active", active);
-    t.setAttribute("aria-selected", String(active));
-  });
-  for (const key of ["overview", "plan", "do", "check", "act"]) {
-    $("#panel-" + key).hidden = key !== name;
   }
 }
 
@@ -160,14 +158,41 @@ function copyToClipboard() {
   );
 }
 
+async function downloadProjectDocx(key) {
+  const meta = TEMPLATE_META[key];
+  if (!meta) return;
+  const stored = loadProjectFromStorage();
+  const p = App.project || (stored && stored.project) || null;
+  if (!p || !p.templateFields) {
+    toast("Gere um projeto primeiro.", true);
+    return;
+  }
+
+  const btn = key === "pdca" ? $("#btnDocxP") : $("#btnDocxR");
+  const spin = btn && $(".spinner", btn);
+  if (btn) btn.disabled = true;
+  if (spin) spin.hidden = false;
+
+  try {
+    const name = await exportTemplateDoc(meta.file, meta.tokens, p.templateFields);
+    toast("Baixado: " + name);
+  } catch (err) {
+    console.error(err);
+    toast("Erro ao gerar o DOCX: " + err.message, true);
+  } finally {
+    if (btn) btn.disabled = false;
+    if (spin) spin.hidden = true;
+  }
+}
+
 function initActions() {
   $("#extForm").addEventListener("submit", handleGenerate);
   $("#btnCopy").addEventListener("click", copyToClipboard);
   $("#btnMd").addEventListener("click", () => {
     if (App.project) exportMarkdown({ title: App.generatedTitle, sections: App.project.sections });
   });
-  $("#btnDocxP").addEventListener("click", () => openTemplate("pdca"));
-  $("#btnDocxR").addEventListener("click", () => openTemplate("relatorio"));
+  $("#btnDocxP").addEventListener("click", () => downloadProjectDocx("pdca"));
+  $("#btnDocxR").addEventListener("click", () => downloadProjectDocx("relatorio"));
   $("#btnPrint").addEventListener("click", () => {
     if (App.project) {
       const ok = exportPrint({ title: App.generatedTitle, sections: App.project.sections });
@@ -182,6 +207,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initSiteBase();
   loadModelUI();
   initModel();
-  initTabs();
   initActions();
 });

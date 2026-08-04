@@ -1,8 +1,6 @@
 "use strict";
 
 const Chat = {
-  file: null,
-  fileText: "",
   history: [],
   busy: false,
   welcomeShown: false
@@ -20,7 +18,7 @@ function chatAdd(role, html) {
   const w = $("#chatWindow");
   const div = document.createElement("div");
   div.className = "chat-msg chat-msg--" + role;
-  div.innerHTML = html;
+  div.innerHTML = '<div class="chat-bubble">' + html + "</div>";
   w.appendChild(div);
   w.scrollTop = w.scrollHeight;
   return div;
@@ -30,8 +28,7 @@ function chatWelcome() {
   if (Chat.welcomeShown) return;
   Chat.welcomeShown = true;
   chatAdd("ai",
-    '<div class="chat-avatar">IA</div>' +
-    '<div class="chat-bubble">Olá! Sou o assistente do ExtensãoIA. Digite o tema do seu projeto de extensão do Programa de Contexto à Comunidade (Engenharia de Produção), cole o texto de um edital ou envie um arquivo (PDF, DOCX ou TXT). Entrego o projeto completo estruturado no ciclo PDCA, com as referências obrigatórias do site.</div>');
+    "Olá! Descreva o tema do seu projeto de extensão do <strong>Programa de Contexto à Comunidade</strong> (Engenharia de Produção) ou cole o texto de um edital. A IA entrega o projeto completo no ciclo PDCA, com as referências obrigatórias.");
 }
 
 function chatTyping(on) {
@@ -40,57 +37,12 @@ function chatTyping(on) {
     if (existing) return;
     const div = document.createElement("div");
     div.className = "chat-msg chat-msg--ai chat-typing";
-    div.innerHTML =
-      '<div class="chat-avatar">IA</div>' +
-      '<div class="chat-bubble"><span></span><span></span><span></span> Analisando o conteúdo e montando seu projeto…</div>';
+    div.innerHTML = '<div class="chat-bubble"><span class="dot"></span><span class="dot"></span><span class="dot"></span> Gerando seu projeto…</div>';
     $("#chatWindow").appendChild(div);
     $("#chatWindow").scrollTop = $("#chatWindow").scrollHeight;
   } else if (existing) {
     existing.remove();
   }
-}
-
-let chatPdfLib = null;
-async function chatExtractPdf(file) {
-  if (!window.pdfjsLib) {
-    if (!chatPdfLib) {
-      chatPdfLib = loadScript("https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js");
-    }
-    await chatPdfLib;
-    window.pdfjsLib.GlobalWorkerOptions.workerSrc =
-      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-  }
-  const data = await file.arrayBuffer();
-  const pdf = await window.pdfjsLib.getDocument({ data }).promise;
-  let out = "";
-  for (let i = 1; i <= pdf.numPages; i++) {
-    const page = await pdf.getPage(i);
-    const tc = await page.getTextContent();
-    out += tc.items.map((it) => it.str).join(" ") + "\n";
-  }
-  return out;
-}
-
-let chatMammothLib = null;
-async function chatExtractDocx(file) {
-  if (!window.mammoth) {
-    if (!chatMammothLib) {
-      chatMammothLib = loadScript("https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.8.0/mammoth.browser.min.js");
-    }
-    await chatMammothLib;
-  }
-  const result = await window.mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
-  return result.value || "";
-}
-
-async function chatExtractFile(file) {
-  const ext = (file.name.split(".").pop() || "").toLowerCase();
-  if (file.size > 8 * 1024 * 1024) throw new Error("Arquivo muito grande (máximo 8 MB).");
-  if (ext === "txt" || ext === "md") return await file.text();
-  if (ext === "pdf") return await chatExtractPdf(file);
-  if (ext === "docx") return await chatExtractDocx(file);
-  if (ext === "doc") throw new Error("Arquivo .doc (Word antigo) não é suportado. Salve como .docx ou .txt.");
-  throw new Error("Formato não suportado. Use TXT, MD, PDF ou DOCX.");
 }
 
 function chatToFormData(text) {
@@ -131,33 +83,25 @@ function chatBuildPrompt(content) {
 async function chatSend() {
   if (Chat.busy) return;
   const text = $("#chatText").value.trim();
-  if (!text && !Chat.fileText) {
-    toast("Digite uma mensagem ou anexe um arquivo.", true);
+  if (!text) {
+    toast("Digite uma mensagem.", true);
     return;
   }
 
   Chat.busy = true;
   const sendBtn = $("#chatSend");
   sendBtn.disabled = true;
-  $(".spinner", sendBtn).hidden = false;
+  const spin = $(".spinner", sendBtn);
+  if (spin) spin.hidden = false;
 
-  const userContent = [
-    text || "",
-    Chat.fileText ? "ARQUIVO [" + (Chat.file ? Chat.file.name : "anexo") + "]:\n" + Chat.fileText : ""
-  ].filter(Boolean).join("\n\n");
-
-  chatAdd("user",
-    '<div class="chat-bubble">' + chatEscape(text) +
-    (Chat.fileText ? '<span class="chat-file-tag">anexo: ' + chatEscape(Chat.file.name) + "</span>" : "") +
-    "</div>");
-
+  chatAdd("user", chatEscape(text));
   chatTyping(true);
 
   try {
     let project = null;
 
     if (aiIsConfigured()) {
-      const prompt = chatBuildPrompt(userContent);
+      const prompt = chatBuildPrompt(text);
       Chat.history.push({ role: "user", content: prompt });
       const messages = [{ role: "system", content: SYSTEM_PROMPT }, ...Chat.history];
       const raw = await aiSend(messages);
@@ -168,17 +112,19 @@ async function chatSend() {
         const title =
           (parts.overview.match(/^#\s+(.+)$/m)?.[1] || "").replace("Visão geral do projeto", "").trim() ||
           "Projeto de Extensão Acadêmica";
-        project = { title: title, sections: parts, templateFields: parseTemplateBlock(parts.template), isFallback: false };
+        project = {
+          title: title,
+          sections: parts,
+          templateFields: completeTemplateFields(parseTemplateBlock(parts.template), chatToFormData(text)),
+          isFallback: false
+        };
       } else {
         chatTyping(false);
-        chatAdd("ai",
-          '<div class="chat-avatar">IA</div>' +
-          '<div class="chat-bubble chat-bubble--err">A resposta não veio no formato esperado. Aqui está o texto bruto:</div>' +
-          '<div class="chat-bubble chat-bubble--raw"><pre>' + chatEscape(raw.slice(0, 4000)) + "</pre></div>");
+        chatAdd("ai", '<span class="chat-msg--err-text">A resposta não veio no formato esperado. Tente novamente em instantes.</span>');
         return;
       }
     } else {
-      project = fallbackGenerate(chatToFormData(userContent));
+      project = fallbackGenerate(chatToFormData(text));
     }
 
     App.project = project;
@@ -188,66 +134,28 @@ async function chatSend() {
 
     chatTyping(false);
     chatAdd("ai",
-      '<div class="chat-avatar">IA</div>' +
-      '<div class="chat-bubble chat-bubble--project">' +
       "<strong>Projeto gerado:</strong> " + chatEscape(App.generatedTitle) +
       (project.isFallback
         ? '<div class="chat-note">Modo modelo pronto. Preencha o formulário para resultados mais ricos.</div>'
         : '<div class="chat-note">Projeto estruturado no ciclo PDCA, pronto no painel abaixo.' + (window.__aiModelUsed ? " Modelo usado: " + window.__aiModelUsed + "." : "") + "</div>") +
       '<div class="chat-project-actions">' +
-      '<button type="button" data-action="view">Ver no painel</button>' +
-      '<button type="button" data-action="doc">Baixar templates</button>' +
-      "</div>" +
+      '<button type="button" data-action="view">Ver projeto</button>' +
       "</div>");
-
-    if (Chat.fileText) {
-      Chat.file = null;
-      Chat.fileText = "";
-      $("#chatFilebar").hidden = true;
-    }
   } catch (err) {
     chatTyping(false);
     console.error(err);
-    chatAdd("ai",
-      '<div class="chat-avatar">IA</div>' +
-      '<div class="chat-bubble chat-bubble--err">Erro ao gerar o projeto: ' + chatEscape(err.message) + ' Tente novamente em instantes ou escolha outro modelo no seletor.</div>');
+    chatAdd("ai", '<span class="chat-msg--err-text">Erro ao gerar o projeto: ' + chatEscape(err.message) + " Tente novamente em instantes.</span>");
   } finally {
     Chat.busy = false;
     sendBtn.disabled = false;
-    $(".spinner", sendBtn).hidden = true;
+    const spin2 = $(".spinner", sendBtn);
+    if (spin2) spin2.hidden = true;
     $("#chatText").value = "";
   }
 }
 
 function chatInit() {
   chatWelcome();
-
-  $("#chatAttach").addEventListener("click", () => $("#chatFileInput").click());
-
-  $("#chatFileInput").addEventListener("change", async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    try {
-      const text = await chatExtractFile(file);
-      if (!text.trim()) throw new Error("Nenhum texto foi extraído do arquivo.");
-      Chat.file = file;
-      Chat.fileText = text;
-      const len = text.length;
-      $("#chatFileName").textContent =
-        file.name + " (" + (len >= 1000 ? Math.round(len / 1000) + "k" : len) + " caracteres)";
-      $("#chatFilebar").hidden = false;
-      toast("Arquivo carregado: " + file.name);
-    } catch (err) {
-      toast(err.message, true);
-    }
-    e.target.value = "";
-  });
-
-  $("#chatFileRemove").addEventListener("click", () => {
-    Chat.file = null;
-    Chat.fileText = "";
-    $("#chatFilebar").hidden = true;
-  });
 
   $("#chatSend").addEventListener("click", chatSend);
 
@@ -263,9 +171,6 @@ function chatInit() {
     if (!btn || !App.project) return;
     if (btn.dataset.action === "view") {
       $("#resultado").scrollIntoView({ behavior: "smooth", block: "start" });
-    } else if (btn.dataset.action === "doc") {
-      saveProjectToStorage(App.project, App.generatedTitle);
-      window.location.href = "templates.html";
     }
   });
 }

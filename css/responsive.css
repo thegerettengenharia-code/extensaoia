@@ -1,9 +1,4 @@
 /* ============ RESPONSIVE ============ */
-@media (max-width: 1024px) {
-  .generator { grid-template-columns: 1fr; }
-  .gen-sidebar { position: static; }
-}
-
 @media (max-width: 768px) {
   .section { padding: 64px 0; }
   .nav-links { display: none; }
@@ -18,24 +13,31 @@
 
 @media (max-width: 560px) {
   .container { width: min(100% - 32px, var(--container)); }
-  .result-tabs { flex-wrap: wrap; }
-  .tab { flex: 1 1 auto; text-align: center; padding: 10px 8px; font-size: .82rem; }
-  .gen-main { padding: 20px; }
-  .panel { padding: 22px; }
+  .gen-panel { padding: 20px; }
+  .gen-toolbar { flex-direction: column; align-items: stretch; }
+  .gen-model { justify-content: space-between; }
+  .gen-model select { flex: 1 1 auto; min-width: 0; width: 100%; }
+  .pdca-card { padding: 22px 16px; }
   .hero { padding-top: calc(var(--nav-h) + 40px); }
   .hero-cta { flex-direction: column; }
   .hero-cta .btn { width: 100%; }
   .gen-actions { flex-direction: column; align-items: stretch; }
   .gen-actions .btn { width: 100%; }
   .gen-hint { text-align: center; }
-  .result-actions .btn { flex: 1 1 auto; min-width: 0; }
+  .result-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+  }
+  .result-actions .btn { width: 100%; }
+  .result-actions .btn--primary { grid-column: 1 / -1; }
   .field input, .field select, .field textarea { font-size: 1rem; }
   .eyebrow { font-size: .7rem; }
   .section-head { margin-bottom: 40px; }
 }
 
 @media (max-width: 380px) {
-  .result-actions .btn { font-size: .78rem; padding: 9px 10px; }
+  .result-actions { grid-template-columns: 1fr; }
   .result-head { align-items: stretch; flex-direction: column; }
-  .result-actions { flex-wrap: wrap; }
 }

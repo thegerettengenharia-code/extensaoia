@@ -31,9 +31,18 @@ function loadProjectFromStorage() {
   }
 }
 
-function openTemplate(key) {
-  if (App && App.project) saveProjectToStorage(App.project, App.generatedTitle || "");
-  window.location.href = key + ".html";
+function completeTemplateFields(fields, d) {
+  const base = d && typeof fallbackGenerate === "function" ? fallbackGenerate(d).templateFields : {};
+  const allTokens = []
+    .concat(typeof PDCA_TOKENS !== "undefined" ? PDCA_TOKENS : [])
+    .concat(typeof RELATORIO_TOKENS !== "undefined" ? RELATORIO_TOKENS : []);
+  const out = {};
+  for (const token of allTokens) {
+    const v = fields && fields[token] != null ? String(fields[token]).trim() : "";
+    const b = base && base[token] != null ? String(base[token]) : "";
+    out[token] = v && v !== "(a preencher)" ? v : b && b !== "(a preencher)" ? b : v || b || "";
+  }
+  return out;
 }
 
 function toast(msg, isErr) {
@@ -66,7 +75,12 @@ async function generateProjectData(d) {
         (parts.overview.match(/^#\s+(.+)$/m)?.[1] || "").replace("Visão geral do projeto", "").trim() ||
         d.titulo ||
         "Projeto de Extensão Acadêmica";
-      project = { title, sections: parts, templateFields: parseTemplateBlock(parts.template), isFallback: false };
+      project = {
+        title,
+        sections: parts,
+        templateFields: completeTemplateFields(parseTemplateBlock(parts.template), d),
+        isFallback: false
+      };
     }
   } catch (err) {
     if (err.name === "AbortError") throw err;
@@ -114,42 +128,7 @@ function initNav() {
   );
 }
 
-function initReveal() {
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add("is-visible");
-          io.unobserve(e.target);
-        }
-      });
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
-  );
-  $$(".reveal").forEach((el) => io.observe(el));
-}
-
-function initTypeRotate() {
-  const el = $("#typeRotate");
-  if (!el) return;
-  const words = ["planejado", "executado", "verificado", "aprimorado"];
-  let wi = 0, ci = 0, deleting = false;
-  const tick = () => {
-    const word = words[wi];
-    el.textContent = word.slice(0, ci);
-    if (!deleting && ci < word.length) { ci++; setTimeout(tick, 70); return; }
-    if (!deleting) { deleting = true; setTimeout(tick, 1500); return; }
-    if (ci > 0) { ci--; setTimeout(tick, 32); return; }
-    deleting = false;
-    wi = (wi + 1) % words.length;
-    setTimeout(tick, 250);
-  };
-  tick();
-}
-
 function initSiteBase() {
   initTheme();
   initNav();
-  initReveal();
-  initTypeRotate();
 }

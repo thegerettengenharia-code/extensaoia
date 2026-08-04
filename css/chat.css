@@ -40,7 +40,7 @@
 }
 .chat-msg--user .chat-bubble {
   background: linear-gradient(135deg, var(--primary), var(--primary-strong));
-  color: #fff;
+  color: var(--gold-ink);
   border-radius: 18px 18px 4px 18px;
 }
 .chat-msg--ai .chat-bubble {
@@ -59,13 +59,13 @@
   font-family: var(--font-display);
   font-size: .72rem;
   font-weight: 700;
-  color: #fff;
+  color: var(--gold-ink);
   background: var(--grad);
-  box-shadow: 0 4px 12px rgba(79, 70, 229, .35);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, .35);
 }
 .chat-msg--user .chat-avatar {
-  background: linear-gradient(135deg, #34d399, #0d9488);
-  box-shadow: 0 4px 12px rgba(13, 148, 136, .35);
+  background: linear-gradient(135deg, #d4d4d8, #9ca3af);
+  box-shadow: 0 4px 12px rgba(113, 113, 122, .35);
 }
 
 .chat-bubble {
@@ -117,11 +117,11 @@
 }
 .chat-project-actions button:first-child {
   background: linear-gradient(135deg, var(--primary), var(--primary-strong));
-  color: #fff;
+  color: var(--gold-ink);
   border-color: transparent;
 }
 .chat-project-actions button:hover { transform: translateY(-1px); background: var(--surface-strong); }
-.chat-project-actions button:first-child:hover { background: linear-gradient(135deg, var(--primary-strong), #4338ca); }
+.chat-project-actions button:first-child:hover { background: linear-gradient(135deg, var(--primary-strong), var(--gold-dark)); }
 
 /* Typing indicator */
 .chat-typing .chat-bubble { display: flex; align-items: center; gap: 8px; }
@@ -186,7 +186,7 @@
 .chat-send {
   background: linear-gradient(135deg, var(--primary), var(--primary-strong));
   border-color: transparent;
-  color: #fff;
+  color: var(--gold-ink);
 }
 .chat-send:hover:not(:disabled) { transform: translateY(-1px); }
 .chat-send:disabled { opacity: .6; cursor: not-allowed; }

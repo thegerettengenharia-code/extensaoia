@@ -22,7 +22,7 @@ function buildPrintableHTML(p) {
   table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13.5px; font-family: Arial, sans-serif; }
   th, td { border: 1px solid #999; padding: 6px 9px; text-align: left; vertical-align: top; }
   th { background: #efefef; }
-  blockquote { border-left: 3px solid #4f46e5; margin: 12px 0; padding: 6px 14px; color: #444; background: #f6f6fb; }
+  blockquote { border-left: 3px solid #b8860b; margin: 12px 0; padding: 6px 14px; color: #444; background: #faf7ec; }
   strong { color: #000; }
   a { color: #1a3a8a; overflow-wrap: anywhere; word-break: break-word; }
   p, li, td, th { overflow-wrap: anywhere; }

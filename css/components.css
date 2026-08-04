@@ -20,12 +20,12 @@
 
 .btn--primary {
   background: linear-gradient(135deg, var(--primary), var(--primary-strong));
-  color: #fff;
-  box-shadow: 0 10px 26px rgba(79, 70, 229, .35);
+  color: var(--gold-ink);
+  box-shadow: 0 10px 26px rgba(212, 175, 55, .3);
 }
 .btn--primary:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 16px 34px rgba(79, 70, 229, .45);
+  box-shadow: 0 16px 34px rgba(212, 175, 55, .4);
 }
 .btn--ghost {
   background: var(--surface);
@@ -109,10 +109,10 @@
   width: 8px; height: 8px;
   border-radius: 50%;
   background: var(--warn);
-  box-shadow: 0 0 0 3px rgba(251,191,36,.2);
+  box-shadow: 0 0 0 3px rgba(156,163,175,.2);
   animation: pulse 2s infinite;
 }
-.badge.is-ready .dot { background: var(--success); box-shadow: 0 0 0 3px rgba(52,211,153,.2); animation: none; }
+.badge.is-ready .dot { background: var(--success); box-shadow: 0 0 0 3px rgba(212,175,55,.2); animation: none; }
 @keyframes pulse {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.35); opacity: .7; }
@@ -165,8 +165,8 @@
 
 .spinner {
   width: 18px; height: 18px;
-  border: 2px solid rgba(255,255,255,.35);
-  border-top-color: #fff;
+  border: 2px solid rgba(26,21,6,.35);
+  border-top-color: var(--gold-ink);
   border-radius: 50%;
   animation: spin .7s linear infinite;
 }

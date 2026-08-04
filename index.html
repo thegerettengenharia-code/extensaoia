@@ -33,7 +33,6 @@
       <ul class="nav-links" role="list">
         <li><a href="#gerador">Gerar Projeto</a></li>
         <li><a href="#assistente">Assistente IA</a></li>
-        <li><a href="#historico">Histórico</a></li>
         <li><a href="templates.html">Templates</a></li>
       </ul>
       <div class="nav-actions">
@@ -50,7 +49,6 @@
     <div class="nav-mobile" id="navMobile" hidden>
       <a href="#gerador">Gerar Projeto</a>
       <a href="#assistente">Assistente IA</a>
-      <a href="#historico">Histórico</a>
       <a href="templates.html">Templates</a>
     </div>
   </nav>
@@ -88,17 +86,32 @@
           <p class="section-sub">Preencha os campos abaixo e a inteligência artificial monta um projeto completo de extensão do <strong>Programa de Contexto à Comunidade</strong> (Engenharia de Produção), seguindo o ciclo PDCA.</p>
         </div>
 
-        <div class="gen-panel" id="generator">
-          <div class="gen-toolbar">
-            <div class="gen-model">
-              <label for="aiModel">Modelo de IA</label>
-              <select id="aiModel" aria-label="Modelo de inteligência artificial"></select>
-              <span class="badge badge--dot is-ready" id="providerStatus"><span class="dot"></span>IA conectada</span>
+        <div class="generator" id="generator">
+          <aside class="gen-sidebar reveal">
+            <div class="provider-card" id="modelCard">
+              <div class="provider-card-head">
+                <h3>Modelo de IA</h3>
+                <span class="badge badge--dot is-ready" id="providerStatus"><span class="dot"></span>IA conectada</span>
+              </div>
+              <p class="provider-note" id="providerNote">O projeto será gerado pelo modelo gratuito selecionado abaixo.</p>
+              <div class="field">
+                <label for="aiModel">Modelo de inteligência artificial</label>
+                <select id="aiModel"></select>
+              </div>
+              <p class="provider-status-msg" id="providerMsg"></p>
             </div>
-            <p class="provider-status-msg" id="providerMsg"></p>
-          </div>
+            <details class="provider-help">
+              <summary>Quais modelos estão disponíveis?</summary>
+              <ul>
+                <li>Modelos <strong>gratuitos</strong> servidos pela <strong>OpenRouter</strong> (com CORS liberado para o navegador), incluindo modelos NVIDIA (Nemotron) e Google (Gemma).</li>
+                <li>Por serem gratuitos e compartilhados, podem ficar temporariamente em limite de uso — o site tenta novamente automaticamente.</li>
+                <li>Nenhuma chave é necessária: tudo já está configurado.</li>
+              </ul>
+            </details>
+          </aside>
 
-          <form id="extForm" novalidate>
+          <div class="gen-main reveal">
+            <form id="extForm" novalidate>
               <div class="form-grid">
                 <div class="field field--full">
                   <label for="fTitulo">Título do projeto <em>(opcional — a IA pode sugerir)</em></label>
@@ -171,6 +184,7 @@
                 <p class="gen-hint" id="genHint">Os campos com * são essenciais para um bom resultado.</p>
               </div>
             </form>
+          </div>
         </div>
       </div>
     </section>
@@ -193,13 +207,13 @@
               <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M21 12.5 12.6 21a5 5 0 0 1-7-7l8.4-8.5a3.5 3.5 0 0 1 5 5l-8.4 8.5a2 2 0 0 1-2.8-2.8l8.4-8.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </button>
             <input type="file" id="chatFileInput" accept=".txt,.md,.pdf,.docx" hidden />
-            <textarea id="chatText" rows="2" placeholder="Descreva sua ideia, cole um edital ou envie um arquivo… Enter envia, Shift+Enter quebra linha."></textarea>
+            <textarea id="chatText" rows="2" placeholder="Descreva o projeto, cole um edital ou faça uma pergunta… Enter envia, Shift+Enter quebra linha."></textarea>
             <button class="chat-send" id="chatSend" type="button" aria-label="Enviar mensagem">
               <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <span class="spinner" hidden aria-hidden="true"></span>
             </button>
           </div>
-          <p class="chat-hint">Modelos gratuitos via OpenRouter, seguindo as regras do site: ciclo PDCA e referências obrigatórias.</p>
+          <p class="chat-hint">A IA usa modelos gratuitos (NVIDIA e OpenRouter) e segue as regras do site: projetos do Programa de Contexto à Comunidade (Engenharia de Produção) estruturados no ciclo PDCA, com apenas as referências bibliográficas obrigatórias.</p>
         </div>
       </div>
     </section>
@@ -273,17 +287,6 @@
         </div>
       </div>
     </section>
-
-    <section class="section section--alt" id="historico">
-      <div class="container">
-        <div class="section-head reveal">
-          <p class="eyebrow">Histórico</p>
-          <h2>Seus projetos <span class="grad">criados</span></h2>
-          <p class="section-sub">Os projetos que você gerou ficam salvos aqui no navegador. Abra um a qualquer momento para rever no painel ou baixar os templates.</p>
-        </div>
-        <div class="history-list reveal" id="historyList"></div>
-      </div>
-    </section>
   </main>
 
   <footer class="footer">
@@ -304,7 +307,6 @@
         <h4>Navegação</h4>
         <a href="#gerador">Gerar projeto</a>
         <a href="#assistente">Assistente IA</a>
-        <a href="#historico">Histórico</a>
         <a href="templates.html">Templates</a>
       </div>
     </div>

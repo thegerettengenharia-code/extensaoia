@@ -9,57 +9,6 @@ const App = {
 };
 
 const PROJECT_STORAGE_KEY = "eia_project_v1";
-const HISTORY_STORAGE_KEY = "eia_history_v1";
-const HISTORY_MAX = 20;
-
-function loadHistory() {
-  try {
-    const raw = localStorage.getItem(HISTORY_STORAGE_KEY);
-    const list = raw ? JSON.parse(raw) : [];
-    return Array.isArray(list) ? list : [];
-  } catch (_) {
-    return [];
-  }
-}
-
-function saveProjectToHistory(project, title) {
-  try {
-    const list = loadHistory();
-    list.unshift({
-      id: "h" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
-      title: title || (project && project.title) || "Projeto de Extensão Acadêmica",
-      project: project,
-      savedAt: Date.now()
-    });
-    if (list.length > HISTORY_MAX) list.length = HISTORY_MAX;
-    localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(list));
-    return list[0];
-  } catch (_) {
-    return null;
-  }
-}
-
-function removeHistoryItem(id) {
-  const list = loadHistory().filter((it) => it.id !== id);
-  try {
-    localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(list));
-  } catch (_) {}
-  return list;
-}
-
-function completeTemplateFields(fields, d) {
-  const base = d && typeof fallbackGenerate === "function" ? fallbackGenerate(d).templateFields : {};
-  const out = {};
-  const allTokens = []
-    .concat(typeof PDCA_TOKENS !== "undefined" ? PDCA_TOKENS : [])
-    .concat(typeof RELATORIO_TOKENS !== "undefined" ? RELATORIO_TOKENS : []);
-  for (const token of allTokens) {
-    const v = fields && fields[token] != null ? String(fields[token]).trim() : "";
-    const b = base && base[token] != null ? String(base[token]) : "";
-    out[token] = v && v !== "(a preencher)" ? v : b && b !== "(a preencher)" ? b : v || b || "";
-  }
-  return out;
-}
 
 function saveProjectToStorage(project, title) {
   try {
@@ -117,12 +66,7 @@ async function generateProjectData(d) {
         (parts.overview.match(/^#\s+(.+)$/m)?.[1] || "").replace("Visão geral do projeto", "").trim() ||
         d.titulo ||
         "Projeto de Extensão Acadêmica";
-      project = {
-        title,
-        sections: parts,
-        templateFields: completeTemplateFields(parseTemplateBlock(parts.template), d),
-        isFallback: false
-      };
+      project = { title, sections: parts, templateFields: parseTemplateBlock(parts.template), isFallback: false };
     }
   } catch (err) {
     if (err.name === "AbortError") throw err;

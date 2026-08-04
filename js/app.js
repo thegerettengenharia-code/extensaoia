@@ -27,11 +27,13 @@ function loadModelUI() {
 function updateModelStatus() {
   const c = aiConfig();
   const status = $("#providerStatus");
+  const note = $("#providerNote");
   const msg = $("#providerMsg");
   if (status) {
     status.classList.add("is-ready");
     status.innerHTML = '<span class="dot"></span>IA conectada';
   }
+  if (note) note.textContent = "O projeto será gerado pelo modelo gratuito selecionado abaixo.";
   if (msg) {
     msg.textContent =
       "Ativo: " + c.label + " — modelo gratuito via OpenRouter. Se houver limite de uso, a IA tenta novamente automaticamente.";
@@ -106,9 +108,7 @@ async function handleGenerate(e) {
   App.project = project;
   App.generatedTitle = project.isFallback ? (d.titulo || "Projeto de Extensão Acadêmica") : project.title;
   saveProjectToStorage(project, App.generatedTitle);
-  saveProjectToHistory(project, App.generatedTitle);
   renderProject(project);
-  renderHistory();
   setLoading(false);
   $("#resultado").scrollIntoView({ behavior: "smooth", block: "start" });
 }
@@ -160,63 +160,6 @@ function copyToClipboard() {
   );
 }
 
-function escHtmlAttr(s) {
-  return String(s == null ? "" : s).replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-function renderHistory() {
-  const listEl = $("#historyList");
-  if (!listEl) return;
-  const list = loadHistory();
-  if (!list.length) {
-    listEl.innerHTML =
-      '<p class="history-empty">Nenhum projeto criado ainda. Gere o primeiro projeto com a IA acima e ele aparecerá aqui.</p>';
-    return;
-  }
-  listEl.innerHTML = list
-    .map((it) => {
-      const date = new Date(it.savedAt).toLocaleDateString("pt-BR");
-      return (
-        '<article class="history-card" data-id="' + escHtmlAttr(it.id) + '">' +
-        '<div class="history-card-body">' +
-        "<h3>" + escHtmlAttr(it.title) + "</h3>" +
-        '<p class="history-date">Criado em ' + date + " · " +
-        (it.project && it.project.isFallback ? "modelo pronto" : "gerado com IA") + "</p>" +
-        "</div>" +
-        '<div class="history-card-actions">' +
-        '<button class="btn btn--ghost btn--sm" type="button" data-hist="open">Abrir no painel</button>' +
-        '<a class="btn btn--ghost btn--sm" href="templates.html">Templates</a>' +
-        '<button class="btn btn--ghost btn--sm btn--danger" type="button" data-hist="del">Excluir</button>' +
-        "</div>" +
-        "</article>"
-      );
-    })
-    .join("");
-}
-
-function initHistory() {
-  const listEl = $("#historyList");
-  if (!listEl) return;
-  renderHistory();
-  listEl.addEventListener("click", (e) => {
-    const card = e.target.closest("[data-id]");
-    if (!card) return;
-    const item = loadHistory().find((it) => it.id === card.dataset.id);
-    if (!item || !item.project) return;
-    if (e.target.closest('[data-hist="open"]')) {
-      App.project = item.project;
-      App.generatedTitle = item.title || App.project.title || "Projeto de Extensão Acadêmica";
-      saveProjectToStorage(App.project, App.generatedTitle);
-      renderProject(item.project);
-      $("#resultado").scrollIntoView({ behavior: "smooth", block: "start" });
-    } else if (e.target.closest('[data-hist="del"]')) {
-      removeHistoryItem(card.dataset.id);
-      renderHistory();
-      toast("Projeto removido do histórico.");
-    }
-  });
-}
-
 function initActions() {
   $("#extForm").addEventListener("submit", handleGenerate);
   $("#btnCopy").addEventListener("click", copyToClipboard);
@@ -241,5 +184,4 @@ document.addEventListener("DOMContentLoaded", () => {
   initModel();
   initTabs();
   initActions();
-  initHistory();
 });

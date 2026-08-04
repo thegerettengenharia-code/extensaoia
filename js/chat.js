@@ -168,12 +168,7 @@ async function chatSend() {
         const title =
           (parts.overview.match(/^#\s+(.+)$/m)?.[1] || "").replace("Visão geral do projeto", "").trim() ||
           "Projeto de Extensão Acadêmica";
-        project = {
-          title: title,
-          sections: parts,
-          templateFields: completeTemplateFields(parseTemplateBlock(parts.template), chatToFormData(userContent)),
-          isFallback: false
-        };
+        project = { title: title, sections: parts, templateFields: parseTemplateBlock(parts.template), isFallback: false };
       } else {
         chatTyping(false);
         chatAdd("ai",
@@ -189,9 +184,7 @@ async function chatSend() {
     App.project = project;
     App.generatedTitle = project.isFallback ? "Projeto de Extensão Acadêmica (modelo pronto)" : project.title;
     saveProjectToStorage(project, App.generatedTitle);
-    saveProjectToHistory(project, App.generatedTitle);
     renderProject(project);
-    renderHistory();
 
     chatTyping(false);
     chatAdd("ai",

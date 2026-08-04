@@ -21,7 +21,7 @@ function renderHubCards() {
   grid.innerHTML = Object.keys(TEMPLATE_META).map((key) => {
     const meta = TEMPLATE_META[key];
     return (
-      '<article class="tpl-card">' +
+      '<article class="tpl-card reveal">' +
       '<div class="tpl-card-head">' +
       "<h2>" + escHtml(meta.title) + "</h2>" +
       '<span class="badge badge--dot is-ready"><span class="dot"></span>DOCX</span>' +

@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ExtensãoIA — Gere projetos de extensão acadêmica completos com Inteligência Artificial, estruturados pelo ciclo PDCA." />
+  <title>ExtensãoIA — Projetos de Extensão com IA + PDCA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/chat.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='24' fill='%234f46e5'/%3E%3Cpath d='M50 20a30 30 0 1 0 30 30' stroke='%23ffffff' stroke-width='8' fill='none' stroke-linecap='round' stroke-dasharray='1 8'/%3E%3C/svg%3E" />
+</head>
+<body>
+  <a class="skip-link" href="#gerador">Ir para o gerador</a>
+
+  <nav class="nav" id="nav">
+    <div class="nav-inner container">
+      <a class="brand" href="#topo" aria-label="ExtensãoIA — início">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 100 100" width="26" height="26">
+            <circle cx="50" cy="50" r="34" fill="none" stroke="currentColor" stroke-width="7" stroke-dasharray="2 12" stroke-linecap="round"/>
+            <circle cx="50" cy="50" r="8" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="brand-text">Extensão<em>IA</em></span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="#ciclo">O Ciclo PDCA</a></li>
+        <li><a href="#gerador">Gerar Projeto</a></li>
+        <li><a href="#como-funciona">Como funciona</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="theme-toggle" id="themeToggle" type="button" aria-label="Alternar tema claro/escuro">
+          <span class="theme-icon theme-icon--moon">&#9789;</span>
+          <span class="theme-icon theme-icon--sun">&#9728;</span>
+        </button>
+        <a class="btn btn--primary btn--sm" href="#gerador">Criar projeto</a>
+      </div>
+      <button class="nav-burger" id="navBurger" type="button" aria-label="Abrir menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="navMobile" hidden>
+      <a href="#ciclo">O Ciclo PDCA</a>
+      <a href="#gerador">Gerar Projeto</a>
+      <a href="#como-funciona">Como funciona</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="topo">
+    <div class="hero-bg" aria-hidden="true">
+      <div class="blob blob--1"></div>
+      <div class="blob blob--2"></div>
+      <div class="grid-overlay"></div>
+    </div>
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <p class="eyebrow reveal">Inteligência Artificial + Ciclo PDCA</p>
+        <h1 class="hero-title reveal">
+          Projetos de extensão acadêmica <span class="grad">prontos em minutos</span>,
+          <span class="type-rotate" id="typeRotate">planejados</span> do início ao fim.
+        </h1>
+        <p class="hero-sub reveal">
+          O <strong>ExtensãoIA</strong> transforma suas ideias em projetos de extensão
+          completos e bem estruturados, seguindo o ciclo <strong>Planejar → Executar → Verificar → Agir</strong>.
+          Ideal para editais, currículo e impacto real na comunidade.
+        </p>
+        <div class="hero-cta reveal">
+          <a class="btn btn--primary btn--lg" href="#gerador">
+            Gerar meu projeto
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn--ghost btn--lg" href="#ciclo">Entender o PDCA</a>
+        </div>
+        <ul class="hero-stats reveal" role="list">
+          <li><strong>4</strong><span>fases do ciclo</span></li>
+          <li><strong>100%</strong><span>estruturação automática</span></li>
+          <li><strong>DOCX</strong><span>exportação pronta</span></li>
+        </ul>
+      </div>
+      <div class="hero-visual reveal">
+        <svg class="pdca-ring" viewBox="0 0 420 420" role="img" aria-label="Ciclo PDCA: Planejar, Executar, Verificar, Agir">
+          <defs>
+            <linearGradient id="gradStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#6366f1"/>
+              <stop offset="50%" stop-color="#22d3ee"/>
+              <stop offset="100%" stop-color="#34d399"/>
+            </linearGradient>
+            <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="6" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <circle cx="210" cy="210" r="150" fill="none" stroke="url(#gradStroke)" stroke-width="14" stroke-linecap="round" stroke-dasharray="3 22" opacity="0.9" filter="url(#softGlow)"/>
+          <g class="pdca-node" data-phase="plan">
+            <circle cx="210" cy="66" r="40" class="pdca-node-bg"/>
+            <text x="210" y="60" text-anchor="middle" class="pdca-node-letter">P</text>
+            <text x="210" y="80" text-anchor="middle" class="pdca-node-label">PLANEJAR</text>
+          </g>
+          <g class="pdca-node" data-phase="do">
+            <circle cx="354" cy="210" r="40" class="pdca-node-bg"/>
+            <text x="354" y="204" text-anchor="middle" class="pdca-node-letter">D</text>
+            <text x="354" y="224" text-anchor="middle" class="pdca-node-label">EXECUTAR</text>
+          </g>
+          <g class="pdca-node" data-phase="check">
+            <circle cx="210" cy="354" r="40" class="pdca-node-bg"/>
+            <text x="210" y="348" text-anchor="middle" class="pdca-node-letter">C</text>
+            <text x="210" y="368" text-anchor="middle" class="pdca-node-label">VERIFICAR</text>
+          </g>
+          <g class="pdca-node" data-phase="act">
+            <circle cx="66" cy="210" r="40" class="pdca-node-bg"/>
+            <text x="66" y="204" text-anchor="middle" class="pdca-node-letter">A</text>
+            <text x="66" y="224" text-anchor="middle" class="pdca-node-label">AGIR</text>
+          </g>
+          <text x="210" y="222" text-anchor="middle" class="pdca-center-text">CICLO<br/>PDCA</text>
+        </svg>
+        <div class="hero-chip hero-chip--1">Objetivos claros</div>
+        <div class="hero-chip hero-chip--2">Cronograma realista</div>
+        <div class="hero-chip hero-chip--3">Avaliação por indicadores</div>
+      </div>
+    </div>
+    <div class="hero-wave" aria-hidden="true"></div>
+  </header>
+
+  <main>
+    <section class="section" id="ciclo">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">A metodologia</p>
+          <h2>Um ciclo, <span class="grad">quatro fases</span> que se repetem</h2>
+          <p class="section-sub">O PDCA é a espinha dorsal de projetos de extensão eficazes: planeje com rigor, execute com método, verifique com indicadores e aprimore continuamente.</p>
+        </div>
+        <div class="pdca-cards">
+          <article class="pdca-card reveal" data-phase-card="plan" style="--i:0">
+            <div class="pdca-card-phase">P</div>
+            <h3>Planejar</h3>
+            <p>Diagnóstico do problema, definição de objetivos, público-alvo, metas, indicadores e cronograma. O plano é o mapa do projeto.</p>
+          </article>
+          <article class="pdca-card reveal" data-phase-card="do" style="--i:1">
+            <div class="pdca-card-phase">D</div>
+            <h3>Executar</h3>
+            <p>Realização das atividades planejadas: oficinas, ações comunitárias, atendimentos e capacitações, com registro de tudo que acontece.</p>
+          </article>
+          <article class="pdca-card reveal" data-phase-card="check" style="--i:2">
+            <div class="pdca-card-phase">C</div>
+            <h3>Verificar</h3>
+            <p>Comparação entre o planejado e o executado por meio de indicadores, questionários e relatórios. Medir para decidir.</p>
+          </article>
+          <article class="pdca-card reveal" data-phase-card="act" style="--i:3">
+            <div class="pdca-card-phase">A</div>
+            <h3>Agir</h3>
+            <p>Correção de desvios, padronização do que funcionou e propostas de melhoria para o próximo ciclo. O ciclo nunca para.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="gerador">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">O gerador</p>
+          <h2>Conte sua ideia. <span class="grad">Nós estruturamos tudo.</span></h2>
+          <p class="section-sub">Preencha os campos abaixo e a inteligência artificial monta um projeto completo de extensão acadêmica seguindo o ciclo PDCA.</p>
+        </div>
+
+        <div class="generator" id="generator">
+          <aside class="gen-sidebar reveal">
+            <div class="provider-card" id="modelCard">
+              <div class="provider-card-head">
+                <h3>Modelo de IA</h3>
+                <span class="badge badge--dot is-ready" id="providerStatus"><span class="dot"></span>IA conectada</span>
+              </div>
+              <p class="provider-note" id="providerNote">O projeto será gerado pelo modelo gratuito selecionado abaixo.</p>
+              <div class="field">
+                <label for="aiModel">Modelo de inteligência artificial</label>
+                <select id="aiModel"></select>
+              </div>
+              <p class="provider-status-msg" id="providerMsg"></p>
+            </div>
+            <details class="provider-help">
+              <summary>Quais modelos estão disponíveis?</summary>
+              <ul>
+                <li><strong>NVIDIA</strong>: modelos gratuitos e estáveis — recomendados.</li>
+                <li><strong>OpenRouter</strong>: modelos gratuitos de vários criadores; podem ficar temporariamente em limite de uso e exigir nova tentativa.</li>
+                <li>Nenhuma chave é necessária: tudo já está configurado.</li>
+              </ul>
+            </details>
+          </aside>
+
+          <div class="gen-main reveal">
+            <form id="extForm" novalidate>
+              <div class="form-grid">
+                <div class="field field--full">
+                  <label for="fTitulo">Título do projeto <em>(opcional — a IA pode sugerir)</em></label>
+                  <input id="fTitulo" type="text" placeholder="ex.: Saúde em Movimento: prevenção comunitária" />
+                </div>
+                <div class="field">
+                  <label for="fAluno">Nome do aluno(a)</label>
+                  <input id="fAluno" type="text" placeholder="ex.: Maria da Silva" />
+                </div>
+                <div class="field">
+                  <label for="fRA">RA</label>
+                  <input id="fRA" type="text" placeholder="ex.: 2024.1.0123" />
+                </div>
+                <div class="field">
+                  <label for="fPolo">Polo / Unidade</label>
+                  <input id="fPolo" type="text" placeholder="ex.: Polo Centro" />
+                </div>
+                <div class="field">
+                  <label for="fCurso">Curso / Programa</label>
+                  <input id="fCurso" type="text" required placeholder="ex.: Enfermagem" />
+                </div>
+                <div class="field">
+                  <label for="fArea">Área temática</label>
+                  <select id="fArea">
+                    <option value="Comunicação">Comunicação</option>
+                    <option value="Cultura">Cultura</option>
+                    <option value="Direitos Humanos e Justiça">Direitos Humanos e Justiça</option>
+                    <option value="Educação">Educação</option>
+                    <option value="Meio Ambiente">Meio Ambiente</option>
+                    <option value="Saúde" selected>Saúde</option>
+                    <option value="Tecnologia e Produção">Tecnologia e Produção</option>
+                    <option value="Trabalho">Trabalho</option>
+                  </select>
+                </div>
+                <div class="field field--full">
+                  <label for="fPublico">Público-alvo / Comunidade</label>
+                  <input id="fPublico" type="text" required placeholder="ex.: famílias de baixa renda do bairro X, 200 pessoas" />
+                </div>
+                <div class="field field--full">
+                  <label for="fProblema">Problema identificado / Justificativa</label>
+                  <textarea id="fProblema" rows="4" required placeholder="Descreva o problema que motiva o projeto: dados, contexto, urgência..."></textarea>
+                </div>
+                <div class="field">
+                  <label for="fLocal">Instituição / Local de atuação</label>
+                  <input id="fLocal" type="text" placeholder="ex.: Universidade X / CRAS do bairro" />
+                </div>
+                <div class="field">
+                  <label for="fDuracao">Duração</label>
+                  <select id="fDuracao">
+                    <option value="1 semestre">1 semestre</option>
+                    <option value="2 semestres" selected>2 semestres</option>
+                    <option value="1 ano">1 ano</option>
+                  </select>
+                </div>
+                <div class="field field--full">
+                  <label for="fObjetivos">Objetivos específicos (opcional)</label>
+                  <textarea id="fObjetivos" rows="3" placeholder="Um por linha. Se deixar vazio, a IA define."></textarea>
+                </div>
+                <div class="field">
+                  <label for="fEquipe">Equipe (opcional)</label>
+                  <input id="fEquipe" type="text" placeholder="ex.: 4 discentes, 1 docente" />
+                </div>
+                <div class="field">
+                  <label for="fParcerias">Parcerias / Recursos (opcional)</label>
+                  <input id="fParcerias" type="text" placeholder="ex.: escola municipal, prefeitura" />
+                </div>
+              </div>
+              <div class="gen-actions">
+                <button class="btn btn--primary btn--lg" id="btnGenerate" type="submit">
+                  <span class="btn-label">Gerar projeto com IA</span>
+                  <span class="spinner" hidden aria-hidden="true"></span>
+                </button>
+                <p class="gen-hint" id="genHint">Os campos com * são essenciais para um bom resultado.</p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="assistente">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Assistente IA</p>
+          <h2>Converse com a IA ou <span class="grad">envie um arquivo</span></h2>
+          <p class="section-sub">Digite sua ideia, cole o texto de um edital ou envie um documento (PDF, DOCX ou TXT). A IA analisa o conteúdo e entrega o projeto pronto no padrão do site — ciclo PDCA e referências obrigatórias.</p>
+        </div>
+        <div class="chat reveal">
+          <div class="chat-window" id="chatWindow" role="log" aria-live="polite" aria-label="Conversa com a IA"></div>
+          <div class="chat-filebar" id="chatFilebar" hidden>
+            <span class="chat-filename" id="chatFileName"></span>
+            <button class="chat-file-remove" id="chatFileRemove" type="button">Remover</button>
+          </div>
+          <div class="chat-input">
+            <button class="chat-attach" id="chatAttach" type="button" aria-label="Anexar arquivo" title="Anexar arquivo (PDF, DOCX, TXT)">
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M21 12.5 12.6 21a5 5 0 0 1-7-7l8.4-8.5a3.5 3.5 0 0 1 5 5l-8.4 8.5a2 2 0 0 1-2.8-2.8l8.4-8.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <input type="file" id="chatFileInput" accept=".txt,.md,.pdf,.docx" hidden />
+            <textarea id="chatText" rows="2" placeholder="Descreva o projeto, cole um edital ou faça uma pergunta… Enter envia, Shift+Enter quebra linha."></textarea>
+            <button class="chat-send" id="chatSend" type="button" aria-label="Enviar mensagem">
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span class="spinner" hidden aria-hidden="true"></span>
+            </button>
+          </div>
+          <p class="chat-hint">A IA usa modelos gratuitos (NVIDIA e OpenRouter) e segue as regras do site: estrutura no ciclo PDCA e apenas as referências bibliográficas obrigatórias.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section result-section" id="resultado" hidden>
+      <div class="container">
+        <div class="result-head reveal">
+          <div>
+            <p class="eyebrow">Seu projeto</p>
+            <h2 id="resultTitle" class="result-title">Projeto gerado</h2>
+          </div>
+          <div class="result-actions">
+            <button class="btn btn--ghost btn--sm" id="btnCopy" type="button">Copiar</button>
+            <button class="btn btn--ghost btn--sm" id="btnMd" type="button">Markdown</button>
+            <button class="btn btn--ghost btn--sm" id="btnPrint" type="button">Imprimir / PDF</button>
+            <button class="btn btn--primary btn--sm" id="btnDocx" type="button">Baixar DOCX (PDCA + Relatório)</button>
+          </div>
+        </div>
+
+        <div class="result-tabs reveal" role="tablist" aria-label="Fases do projeto">
+          <button class="tab tab--active" role="tab" aria-selected="true" data-tab="overview">Visão geral</button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="plan">1 · Planejar</button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="do">2 · Executar</button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="check">3 · Verificar</button>
+          <button class="tab" role="tab" aria-selected="false" data-tab="act">4 · Agir</button>
+        </div>
+
+        <div class="result-panels reveal" id="resultPanels">
+          <div class="panel" id="panel-overview" role="tabpanel"></div>
+          <div class="panel" id="panel-plan" role="tabpanel" hidden></div>
+          <div class="panel" id="panel-do" role="tabpanel" hidden></div>
+          <div class="panel" id="panel-check" role="tabpanel" hidden></div>
+          <div class="panel" id="panel-act" role="tabpanel" hidden></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="como-funciona">
+      <div class="container">
+        <div class="section-head reveal">
+          <p class="eyebrow">Fluxo de trabalho</p>
+          <h2>Do diagnóstico à <span class="grad">ação contínua</span></h2>
+          <p class="section-sub">O ExtensãoIA aplica o ciclo PDCA tanto na elaboração quanto na condução do seu projeto.</p>
+        </div>
+        <div class="steps">
+          <div class="step reveal" style="--i:0">
+            <span class="step-num">01</span>
+            <h3>Diagnóstico</h3>
+            <p>Você descreve o problema, o público e o contexto. A IA qualifica a justificativa com dados e referências conceituais.</p>
+          </div>
+          <div class="step reveal" style="--i:1">
+            <span class="step-num">02</span>
+            <h3>Planejamento</h3>
+            <p>Objetivos, metas, indicadores, cronograma e recursos são estruturados na fase Planejar.</p>
+          </div>
+          <div class="step reveal" style="--i:2">
+            <span class="step-num">03</span>
+            <h3>Execução</h3>
+            <p>As atividades são organizadas em etapas práticas com metodologias de ação comunitária.</p>
+          </div>
+          <div class="step reveal" style="--i:3">
+            <span class="step-num">04</span>
+            <h3>Verificação</h3>
+            <p>Instrumentos de avaliação e indicadores medem o alcance das metas definidas.</p>
+          </div>
+          <div class="step reveal" style="--i:4">
+            <span class="step-num">05</span>
+            <h3>Melhoria contínua</h3>
+            <p>Ações corretivas e padronização fecham o ciclo e alimentam o próximo. É o Agir.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <a class="brand" href="#topo">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 100 100" width="22" height="22">
+              <circle cx="50" cy="50" r="34" fill="none" stroke="currentColor" stroke-width="7" stroke-dasharray="2 12" stroke-linecap="round"/>
+              <circle cx="50" cy="50" r="8" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="brand-text">Extensão<em>IA</em></span>
+        </a>
+        <p>Projetos de extensão acadêmica estruturados por inteligência artificial com base no ciclo PDCA.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Navegação</h4>
+        <a href="#ciclo">O Ciclo PDCA</a>
+        <a href="#gerador">Gerar projeto</a>
+        <a href="#como-funciona">Como funciona</a>
+      </div>
+      <div class="footer-links">
+        <h4>PDCA</h4>
+        <a href="#gerador">Planejar</a>
+        <a href="#gerador">Executar</a>
+        <a href="#gerador">Verificar</a>
+        <a href="#gerador">Agir</a>
+      </div>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; <span id="year"></span> ExtensãoIA — feito para a extensão universitária.</p>
+      <p>Educação · Pesquisa · Extensão</p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/fallback.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/templates.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/chat.js"></script>
+</body>
+</html>

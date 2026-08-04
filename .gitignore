@@ -1,0 +1,8 @@
+node_modules/
+.env
+.env.*
+*.log
+*.tmp
+Thumbs.db
+.DS_Store
+tests/serve.js

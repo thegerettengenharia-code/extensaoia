@@ -151,7 +151,7 @@ function setLoading(on) {
   $(".btn-label", btn).hidden = on;
   $(".spinner", btn).hidden = !on;
   $("#genHint").textContent = on
-    ? "A IA está trabalhando. A geração completa costuma levar de 1 a 4 minutos…"
+    ? "A IA está trabalhando. Modelos gratuitos podem levar de 1 a 5 minutos — se um ficar ocupado, troco automaticamente para outro…"
     : "Os campos com * são essenciais para um bom resultado.";
 }
 
@@ -206,7 +206,7 @@ function renderProject(p) {
   if (p.isFallback) {
     toast("Projeto gerado no modo modelo pronto (sem IA).");
   } else {
-    toast("Projeto gerado com IA com sucesso!");
+    toast("Projeto gerado com IA com sucesso!" + (window.__aiModelUsed ? " Modelo: " + window.__aiModelUsed : ""));
   }
 
   switchTab("overview");

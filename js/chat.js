@@ -200,7 +200,7 @@ async function chatSend() {
       "<strong>Projeto gerado:</strong> " + chatEscape(App.generatedTitle) +
       (project.isFallback
         ? '<div class="chat-note">Modo modelo pronto. Preencha o formulário para resultados mais ricos.</div>'
-        : '<div class="chat-note">Projeto estruturado no ciclo PDCA, pronto no painel abaixo.</div>') +
+        : '<div class="chat-note">Projeto estruturado no ciclo PDCA, pronto no painel abaixo.' + (window.__aiModelUsed ? " Modelo usado: " + window.__aiModelUsed + "." : "") + "</div>") +
       '<div class="chat-project-actions">' +
       '<button type="button" data-action="view">Ver no painel</button>' +
       '<button type="button" data-action="doc">Baixar DOCX</button>' +
@@ -217,7 +217,7 @@ async function chatSend() {
     console.error(err);
     chatAdd("ai",
       '<div class="chat-avatar">IA</div>' +
-      '<div class="chat-bubble chat-bubble--err">Erro ao gerar o projeto: ' + chatEscape(err.message) + "</div>");
+      '<div class="chat-bubble chat-bubble--err">Erro ao gerar o projeto: ' + chatEscape(err.message) + ' Tente novamente em instantes ou escolha outro modelo no seletor.</div>');
   } finally {
     Chat.busy = false;
     sendBtn.disabled = false;

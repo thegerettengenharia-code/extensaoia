@@ -70,31 +70,63 @@ function aiIsConfigured() {
   return true;
 }
 
+if (typeof window !== "undefined") window.__aiModelUsed = null;
+
 async function aiSend(messages) {
-  const c = aiConfig();
-  if (!c.base || !c.model) throw new Error("Selecione o modelo de IA desejado.");
+  const selected = localStorage.getItem("eia_model") || MODEL_OPTIONS[0].id;
+  const order = [selected].concat(MODEL_OPTIONS.map((m) => m.id).filter((id) => id !== selected));
+  let lastErr = null;
+  for (const id of order) {
+    const opt = MODEL_OPTIONS.find((m) => m.id === id);
+    if (!opt) continue;
+    try {
+      const text = await aiSendModel(opt, messages);
+      window.__aiModelUsed = opt.label;
+      return text;
+    } catch (err) {
+      lastErr = err;
+      if (err.name === "AbortError") throw err;
+    }
+  }
+  throw lastErr || new Error("Nenhum modelo gratuito respondeu. Tente novamente em instantes.");
+}
+
+async function aiSendModel(opt, messages) {
+  const p = AI_PROVIDERS[opt.provider];
+  if (!p || !p.base) throw new Error("Provedor do modelo indisponível.");
 
   const controller = new AbortController();
   window.__aiAbort = controller;
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
   for (let attempt = 0; attempt < 3; attempt++) {
-    const res = await fetch(c.base + "/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...(c.key ? { Authorization: "Bearer " + c.key } : {})
-      },
-      body: JSON.stringify({
-        model: c.model,
-        messages: messages,
-        temperature: 0.7,
-        max_tokens: c.maxTokens
-      }),
-      signal: controller.signal
-    });
+    let res;
+    try {
+      res = await fetch(p.base + "/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(p.key ? { Authorization: "Bearer " + p.key } : {})
+        },
+        body: JSON.stringify({
+          model: opt.id,
+          messages: messages,
+          temperature: 0.7,
+          max_tokens: p.maxTokens
+        }),
+        signal: controller.signal
+      });
+    } catch (err) {
+      if (err.name === "AbortError") throw err;
+      if (attempt < 2) {
+        await sleep(attempt === 0 ? 3000 : 6000);
+        continue;
+      }
+      throw new Error("Falha de rede ao falar com a API: " + err.message);
+    }
 
     if (res.status === 429 && attempt < 2) {
-      await new Promise((r) => setTimeout(r, attempt === 0 ? 3000 : 6000));
+      await sleep(attempt === 0 ? 3000 : 6000);
       continue;
     }
 
@@ -112,14 +144,15 @@ async function aiSend(messages) {
     const text = ch?.message?.content || "";
     if (!text) {
       const reason = ch?.finish_reason;
-      const msg = reason === "length"
-        ? "A resposta excedeu o limite de tokens deste modelo e ficou incompleta. Tente novamente ou escolha outro modelo."
-        : "A API não retornou conteúdo. Tente novamente em instantes.";
-      throw new Error(msg);
+      throw new Error(
+        reason === "length"
+          ? "A resposta excedeu o limite de tokens deste modelo e ficou incompleta."
+          : "A API não retornou conteúdo."
+      );
     }
     return text;
   }
-  throw new Error("Limite de uso do modelo gratuito atingido. Tente novamente em instantes ou escolha outro modelo.");
+  throw new Error("Limite de uso do modelo gratuito atingido.");
 }
 
 async function aiGenerate(userPrompt) {

@@ -1,16 +1,12 @@
 "use strict";
 
 const PROJECT_REFERENCES = [
-  "BALDISSERA, Olívia. O que é, como aplicar e quais as etapas do design thinking. 2021. Disponível em: https://posdigital.pucpr.br/blog/etapas-do-design-thinking. Acesso em: 20 mai. 2022.",
-  "BRASIL. Resolução CNE/CES nº 7, de 18 de dezembro de 2018. Estabelece as Diretrizes para a Extensão na Educação Superior Brasileira e regimenta o disposto na Meta 12.7 da Lei nº 13.005/2014, que aprova o Plano Nacional de Educação - PNE 2014-2024 e dá outras providências. Disponível em: https://www.in.gov.br/materia/-/asset_publisher/Kujrw0TZC2Mb/content/id/55877808. Acesso em: 22 jul. 2022.",
-  "COSTA, Margareth de Souza [et al.]. Uma proposta simplificada do Design Thinking para as micro e pequenas empresas atendidas no programa Ali à Luz de Brown. In: 9º International Symposium on Technological Innovation - ISTI. 2008. Disponível em: http://www.api.org.br/conferences/index.php/ISTI2018/ISTI2018/paper/viewFile/537/268. Acesso em: 20 mai. 2022.",
-  "ENDEAVOR. Design Thinking: ferramenta de inovação para empreendedoras e empreendedores. Disponível em: https://endeavor.org.br/tecnologia/design-thinking-inovacao/. Acesso em: 22 jul. 2022.",
-  "ENDEAVOR. PDCA: a prática levando sua gestão à perfeição. Disponível em: https://endeavor.org.br/estrategia-e-gestao/pdca/. Acesso em: 22 jul. 2022.",
-  "SEBRAE. Ferramenta: ANÁLISE SWOT (CLÁSSICO). Disponível em: https://www.sebrae.com.br/Sebrae/Portal%20Sebrae/Anexos/ME_Analise-Swot.PDF. Acesso em: 22 jul. 2022.",
-  "SEBRAE. Saiba o que é e como fazer excelente benchmark: Entenda como funciona, o que é, e os objetivos de trabalhar o benchmark na sua empresa. Disponível em: https://www.sebrae.com.br/sites/PortalSebrae/ufs/ap/artigos/saiba-o-que-e-e-como-fazer-excelente-benchmark,1cb0c51b14713610VgnVCM1000004c00210aRCRD. Acesso em: 09 dez. 2022.",
-  "STOODI. Mapa Mental: o que é? Como fazer? Aprenda agora! Disponível em: https://www.stoodi.com.br/blog/dicas-de-estudo/como-fazer-um-mapa-mental/. Acesso em: 22 jul. 2022.",
-  "3 pilares do Design Thinking: entenda os conceitos e como aplicá-los no seu dia a dia. Disponível em: https://www.mjvinnovation.com/pt-br/blog/3-pilares-do-design-thinking-entenda-os-conceitos-e-como-aplica-los-no-seu-dia-a-dia/. Acesso em: 20 mai. 2020.",
-  "VIANNA, Maurício [et al.]. Design thinking: inovação em negócios. Rio de Janeiro: MJV Press, 2012. Disponível em: http://centrodeinovacaodemaringa.org.br/wp-content/uploads/2017/08/Livro_Design_Thinking_-_Inovao_Negcios.pdf. Acesso em: 20 mai. 2022."
+  "BARBOSA FILHO, Antonio Nunes. Projeto e desenvolvimento de produtos. São Paulo: Atlas, 2009.",
+  "CORRÊA, Vanderlei Moraes. Ergonomia: fundamentos e aplicações. Porto Alegre: Bookman, 2015.",
+  "BRASIL. Segurança e medicina do trabalho. 86. ed. São Paulo: Atlas, 2021. (Manuais de legislação Atlas).",
+  "CHIAVENATO, Idalberto. Gestão da produção: uma abordagem introdutória. 3. ed. Barueri: Manole, 2015.",
+  "BLANK, Leland. Engenharia Econômica. Porto Alegre: Grupo A, 2010.",
+  "NOGUEIRA, Amarildo de Souza. Logística empresarial: um guia prático de operações logísticas. 2. ed. São Paulo: Atlas, 2018."
 ];
 
 const PROJECT_REFERENCES_MD = PROJECT_REFERENCES

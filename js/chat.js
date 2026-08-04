@@ -31,7 +31,7 @@ function chatWelcome() {
   Chat.welcomeShown = true;
   chatAdd("ai",
     '<div class="chat-avatar">IA</div>' +
-    '<div class="chat-bubble">Olá! Sou o assistente do ExtensãoIA. Digite o tema do seu projeto de extensão de Engenharia de Produção, cole o texto de um edital ou envie um arquivo (PDF, DOCX ou TXT). Entrego o projeto completo estruturado no ciclo PDCA, com as referências obrigatórias do site.</div>');
+    '<div class="chat-bubble">Olá! Sou o assistente do ExtensãoIA. Digite o tema do seu projeto de extensão do Programa de Contexto à Comunidade (Engenharia de Produção), cole o texto de um edital ou envie um arquivo (PDF, DOCX ou TXT). Entrego o projeto completo estruturado no ciclo PDCA, com as referências obrigatórias do site.</div>');
 }
 
 function chatTyping(on) {
@@ -130,7 +130,8 @@ function chatBuildPrompt(content) {
   return [
     "Analise o conteúdo abaixo e gere o projeto de extensão acadêmica COMPLETO seguindo EXATAMENTE o formato de 6 blocos com os marcadores <!--TAB:overview-->, <!--TAB:plan-->, <!--TAB:do-->, <!--TAB:check-->, <!--TAB:act--> e <!--TAB:template-->.",
     "Siga TODAS as regras do prompt de sistema: ciclo PDCA (Planejar, Executar, Verificar, Agir) e somente as referências bibliográficas obrigatórias.",
-    "O projeto pertence ao curso de ENGENHARIA DE PRODUÇÃO. Escolha a área temática mais adequada entre: I - Engenharia do Produto; II - Ergonomia e Segurança do Trabalho; III - Gerência de Produção; IV - Gestão Econômica; V - Transporte e Logística. Todo o conteúdo deve ser coerente com a área escolhida.",
+    "O projeto faz parte do PROGRAMA DE CONTEXTO À COMUNIDADE do curso de ENGENHARIA DE PRODUÇÃO: ações de transferência de conhecimento e orientações técnicas para demandas reais da comunidade (prefeituras, associações de bairros, escolas municipais e estaduais, instituições religiosas, ONGs).",
+    "Escolha a área temática mais adequada entre: I - Engenharia do Produto; II - Ergonomia e Segurança do Trabalho; III - Gerência de Produção; IV - Gestão Econômica; V - Transporte e Logística. Todo o conteúdo deve ser coerente com a área escolhida.",
     "",
     "CONTEÚDO:",
     content.slice(0, 12000)

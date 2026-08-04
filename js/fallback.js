@@ -160,6 +160,29 @@ function fallbackGenerate(d) {
     "> O ciclo nunca termina: cada Agir é o novo Planejar."
   ].join("\n");
 
+  const faltantes = [];
+  if (!d.aluno) faltantes.push("Nome do(a) aluno(a) para os documentos oficiais (PDCA e Relatório Final).");
+  if (!d.ra) faltantes.push("RA do(a) aluno(a) para os documentos oficiais.");
+  if (!d.polo) faltantes.push("Polo/unidade de ensino para os documentos oficiais.");
+  if (!d.local) faltantes.push("Local/instituição onde as ações serão realizadas.");
+  if (!d.equipe) faltantes.push("Composição e tamanho da equipe executora.");
+  if (!d.parcerias) faltantes.push("Parcerias e recursos disponíveis (ex.: escola, prefeitura, ONG).");
+  if (!d.objetivos || !d.objetivos.length) faltantes.push("Objetivos específicos personalizados (foram usados objetivos padrão).");
+
+  const sugestoes = [
+    "# Sugestões e pontos a validar",
+    "",
+    faltantes.length
+      ? "## Informações que podem melhorar o projeto\n\n" + faltantes.map((f) => "- " + f).join("\n")
+      : "## Informações a validar\n\n- Os dados fornecidos cobrem as informações essenciais. Valide com o parceiro os detalhes operacionais (datas, espaços, materiais).",
+    "",
+    "## Sugestões de melhoria",
+    "",
+    "- Confirmar com o parceiro/instituição as datas e os espaços das atividades antes de divulgar o cronograma.",
+    "- Acompanhar mensalmente os indicadores (presença, entregas e satisfação) desde o início do ciclo.",
+    "- Planejar a divulgação dos resultados (relatório, redes sociais e eventos) para ampliar a visibilidade do projeto."
+  ].join("\n");
+
   const visaoGeral = [
     "# Visão geral do projeto",
     "",
@@ -262,7 +285,7 @@ function fallbackGenerate(d) {
 
   return {
     title: d.titulo || "Projeto de Extensão Acadêmica",
-    sections: { overview: visaoGeral, plan: fasePlan, do: faseDo, check: faseCheck, act: faseAct },
+    sections: { overview: visaoGeral, plan: fasePlan, do: faseDo, check: faseCheck, act: faseAct, sugestoes: sugestoes },
     templateFields: templateFields,
     isFallback: true
   };

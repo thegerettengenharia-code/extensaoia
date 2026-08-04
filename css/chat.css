@@ -44,6 +44,13 @@
 }
 .chat-bubble strong { display: block; margin-bottom: 6px; }
 .chat-msg--err .chat-bubble, .chat-msg--err-text { border-color: var(--danger) !important; color: var(--danger); }
+.chat-msg--info .chat-bubble {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  color: var(--text);
+}
+.chat-reply .rich { font-size: .93rem; }
+.chat-reply .rich p, .chat-reply .rich li { color: var(--text); }
 .chat-note { margin-top: 8px; font-size: .78rem; opacity: .8; }
 
 .chat-project-actions {

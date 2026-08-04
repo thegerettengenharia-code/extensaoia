@@ -15,15 +15,19 @@ const SYSTEM_PROMPT = [
   "Você é um especialista em projetos de extensão universitária no Brasil, em Engenharia de Produção e em metodologias de gestão da qualidade (ciclo PDCA de Deming/Shewhart).",
   "Sua tarefa: criar um projeto de extensão acadêmica COMPLETO, acadêmico, coerente e detalhado, estruturado rigorosamente no ciclo PDCA.",
   "",
-  "FORMATO OBRIGATÓRIO DE SAÍDA — o texto DEVE conter exatamente estes 6 blocos separados por marcadores (sem texto fora deles):",
+  "IMPORTANTE — INFORMAÇÕES FALTANTES: se a solicitação do usuário NÃO contiver informações essenciais (tema/área de atuação, público-alvo e problema/justificativa), NÃO gere o projeto: responda em português com, no máximo, 4 perguntas objetivas (uma por linha) para coletar o que falta. Depois que o usuário responder, gere o projeto completo.",
+  "IMPORTANTE — SUGESTÕES: ao final do projeto, se houver alguma melhoria relevante ou dado que precise ser validado com o parceiro/instituição, informe no bloco <!--TAB:sugestoes-->.",
+  "",
+  "FORMATO OBRIGATÓRIO DE SAÍDA — ao gerar o projeto, o texto DEVE conter exatamente estes blocos separados por marcadores (sem texto fora deles; o bloco <!--TAB:sugestoes--> é opcional, mas recomendado):",
   "<!--TAB:overview-->\n# Visão geral do projeto\n[conteúdo: identificação, resumo executivo, justificativa, objetivo geral, objetivos específicos, metodologia geral, referências]",
   "<!--TAB:plan-->\n# 1. Planejar (Plan)\n[diagnóstico/justificativa, plano de ação, objetivos, metas, indicadores de desempenho (KPIs), cronograma]",
   "<!--TAB:do-->\n# 2. Executar (Do)\n[etapas de execução, metodologias, distribuição de responsabilidades, recursos e parcerias]",
   "<!--TAB:check-->\n# 3. Verificar (Check)\n[instrumentos de avaliação, comparativo planejado x realizado, periodicidade da verificação]",
   "<!--TAB:act-->\n# 4. Agir (Act)\n[análise de desvios, ações corretivas, padronização de boas práticas, continuidade/disseminação]",
   "<!--TAB:template-->\n# Campos para os documentos oficiais\n[campos no formato '- **campo:** valor', um por linha, conforme as REGRAS DO BLOCO TEMPLATE]",
+  "<!--TAB:sugestoes-->\n# Sugestões e pontos a validar\n['## Informações que podem melhorar o projeto' (dados que o usuário/parceiro deve validar) e '## Sugestões de melhoria' (ajustes para fortalecer o projeto), no máximo 3 itens em cada lista]",
   "",
-  "REGRAS DO BLOCO TEMPLATE (último bloco <!--TAB:template-->):",
+  "REGRAS DO BLOCO TEMPLATE (bloco <!--TAB:template-->):",
   "- Use EXATAMENTE os campos abaixo, um por linha, no formato '- **campo:** valor'. Não crie campos novos:",
   "  aluno, ra, polo, ods_metas, imersao, ideacao, prototipacao, ideias_anotacoes, cronograma, mudancas, acao_proposta, local, durante_acao, mudanca_estrategia, resultado_acao, conclusao, depoimentos, relato, depoimento_instituicao, referencias.",
   "- **aluno** e **ra**: nome e RA do(a) aluno(a) que executa a atividade (use os dados fornecidos; se faltarem, escreva '(a preencher)').",
@@ -56,6 +60,7 @@ const SYSTEM_PROMPT = [
   "- Inclua na seção de referências SOMENTE as referências da lista 'REFERÊNCIAS OBRIGATÓRIAS' abaixo, na íntegra e sem alterações. Não invente, adicione ou substitua nenhuma referência.",
   "- Detalhe cada fase do PDCA: o texto deve ser rico e pronto para submeter a edital ou usar em aula.",
   "- Nunca invente dados falsos de diagnóstico; use os dados fornecidos pelo usuário e, quando faltarem, use premissas claras e marcadas como 'a validar'.",
+  "- O bloco <!--TAB:sugestoes--> deve listar no máximo 3 'Informações que podem melhorar o projeto' (dados a validar) e no máximo 3 'Sugestões de melhoria'. Se nada for necessário, omita o bloco.",
   "",
   "REFERÊNCIAS OBRIGATÓRIAS (use SOMENTE estas, na íntegra):",
   (typeof PROJECT_REFERENCES !== "undefined"
@@ -174,8 +179,8 @@ async function aiGenerate(userPrompt) {
 }
 
 function splitByTabs(md) {
-  const out = { overview: "", plan: "", do: "", check: "", act: "", template: "" };
-  const re = /<!--TAB:(overview|plan|do|check|act|template)-->/g;
+  const out = { overview: "", plan: "", do: "", check: "", act: "", template: "", sugestoes: "" };
+  const re = /<!--TAB:(overview|plan|do|check|act|template|sugestoes)-->/g;
   let last = null;
   let idx = 0;
   for (let m = re.exec(md); m; m = re.exec(md)) {
@@ -296,6 +301,6 @@ function buildUserPrompt(d) {
   lines.push("- Aluno(a) para os documentos oficiais: " + (d.aluno || "(a preencher)"));
   lines.push("- RA do aluno(a): " + (d.ra || "(a preencher)"));
   lines.push("- Polo / Unidade: " + (d.polo || "(a preencher)"));
-  lines.push("", "Agora gere o projeto completo seguindo EXATAMENTE o formato de 6 blocos com os marcadores <!--TAB:...-->.");
+  lines.push("", "Agora gere o projeto completo seguindo EXATAMENTE o formato dos blocos <!--TAB:...--> (incluindo o bloco recomendado <!--TAB:sugestoes--> ao final).");
   return lines.join("\n");
 }

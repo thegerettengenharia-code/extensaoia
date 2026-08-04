@@ -173,7 +173,7 @@
         <div class="chat">
           <div class="chat-window" id="chatWindow" role="log" aria-live="polite" aria-label="Conversa com a IA"></div>
           <div class="chat-input">
-            <textarea id="chatText" rows="2" placeholder="Descreva sua ideia de projeto ou cole um edital… Enter envia, Shift+Enter quebra linha."></textarea>
+            <textarea id="chatText" rows="2" placeholder="Descreva sua ideia, tema ou cole um edital… Se faltarem dados, a IA pergunta. Enter envia, Shift+Enter quebra linha."></textarea>
             <button class="chat-send" id="chatSend" type="button">
               Enviar
               <span class="spinner" hidden aria-hidden="true"></span>
@@ -194,9 +194,26 @@
             <button class="btn btn--ghost btn--sm" id="btnCopy" type="button">Copiar</button>
             <button class="btn btn--ghost btn--sm" id="btnMd" type="button">Markdown</button>
             <button class="btn btn--ghost btn--sm" id="btnPrint" type="button">Imprimir / PDF</button>
-            <button class="btn btn--primary btn--sm" id="btnDocxP" type="button">Baixar PDCA (DOCX)</button>
-            <button class="btn btn--ghost btn--sm" id="btnDocxR" type="button">Baixar Relatório (DOCX)</button>
           </div>
+        </div>
+        <div class="downloads-card" id="downloadsCard">
+          <div class="downloads-head">
+            <div>
+              <h3 class="downloads-title">Baixar documentos preenchidos</h3>
+              <p class="downloads-note">Os templates oficiais (.docx) já saem preenchidos com os dados gerados pela IA.</p>
+            </div>
+          </div>
+          <div class="downloads-btns">
+            <button class="btn btn--primary" id="btnDocxP" type="button">
+              <span class="btn-label">Baixar PDCA (DOCX)</span>
+              <span class="spinner" hidden aria-hidden="true"></span>
+            </button>
+            <button class="btn btn--ghost" id="btnDocxR" type="button">
+              <span class="btn-label">Baixar Relatório Final (DOCX)</span>
+              <span class="spinner" hidden aria-hidden="true"></span>
+            </button>
+          </div>
+          <p class="downloads-status" id="downloadsStatus" role="status"></p>
         </div>
         <div id="resultDoc"></div>
       </div>

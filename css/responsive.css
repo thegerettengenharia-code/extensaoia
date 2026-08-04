@@ -35,6 +35,9 @@
   .field input, .field select, .field textarea { font-size: 1rem; }
   .eyebrow { font-size: .7rem; }
   .section-head { margin-bottom: 40px; }
+  .downloads-card { padding: 20px 18px; }
+  .downloads-btns { flex-direction: column; }
+  .downloads-btns .btn { width: 100%; }
 }
 
 @media (max-width: 380px) {

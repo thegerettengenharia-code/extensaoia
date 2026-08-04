@@ -147,12 +147,15 @@
 .gen-hint { color: var(--text-faint); font-size: .82rem; margin: 0; }
 
 .spinner {
-  width: 18px; height: 18px;
-  border: 2px solid rgba(26,21,6,.35);
-  border-top-color: var(--gold-ink);
+  width: 16px; height: 16px;
+  flex: none;
+  border: 2px solid rgba(128,128,128,.35);
+  border-top-color: currentColor;
   border-radius: 50%;
   animation: spin .7s linear infinite;
 }
+.btn .spinner { margin-left: 2px; }
+.btn--ghost .spinner { border-top-color: var(--text-dim); }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* ============ RESULT ============ */
@@ -168,6 +171,33 @@
 .result-title { font-size: clamp(1.4rem, 2.6vw, 2rem); margin: 0; }
 .result-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
+/* ============ DOWNLOADS CARD ============ */
+.downloads-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 860px;
+  margin: 0 auto 26px;
+  padding: 24px 26px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-strong);
+  border-left: 4px solid var(--primary);
+  background: var(--primary-soft);
+}
+.downloads-title { font-size: 1.12rem; margin: 0 0 4px; }
+.downloads-note { font-size: .9rem; color: var(--text-dim); margin: 0; }
+.downloads-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.downloads-btns .btn { min-height: 46px; }
+.downloads-btns .btn--primary { flex: 1 1 auto; }
+.downloads-btns .btn--ghost { flex: 1 1 auto; }
+.downloads-status { font-size: .84rem; margin: 0; color: var(--text-dim); }
+.downloads-status.err { color: var(--danger); }
+
+/* ============ RESULT ============ */
 #resultDoc { max-width: 860px; margin-inline: auto; }
 .pdca-card {
   border-radius: var(--radius-lg);
@@ -181,6 +211,12 @@
 .pdca-card--do { border-top: 4px solid var(--phase-do); }
 .pdca-card--check { border-top: 4px solid var(--phase-check); }
 .pdca-card--act { border-top: 4px solid var(--phase-act); }
+.pdca-card--sugestoes {
+  border-style: dashed;
+  border-top: 2px dashed var(--primary);
+  background: var(--primary-soft);
+}
+.pdca-card--sugestoes .pdca-phase { color: var(--accent); }
 .pdca-phase {
   font-family: var(--font-display);
   font-weight: 700;
@@ -198,7 +234,7 @@
 .rich h2 { font-size: 1.28rem; }
 .rich h3 { font-size: 1.1rem; }
 .rich h1:first-child, .rich h2:first-child, .rich h3:first-child { margin-top: 0; }
-.rich p { color: var(--text-dim); }
+.rich p { color: var(--text); }
 .rich li { color: var(--text); }
 .rich ul, .rich ol { padding-left: 22px; }
 .rich li { margin-bottom: 6px; }

@@ -14,10 +14,10 @@ function chatEscape(s) {
     .replace(/"/g, "&quot;");
 }
 
-function chatAdd(role, html) {
+function chatAdd(role, html, extra) {
   const w = $("#chatWindow");
   const div = document.createElement("div");
-  div.className = "chat-msg chat-msg--" + role;
+  div.className = "chat-msg chat-msg--" + role + (extra ? " " + extra : "");
   div.innerHTML = '<div class="chat-bubble">' + html + "</div>";
   w.appendChild(div);
   w.scrollTop = w.scrollHeight;
@@ -28,7 +28,8 @@ function chatWelcome() {
   if (Chat.welcomeShown) return;
   Chat.welcomeShown = true;
   chatAdd("ai",
-    "Olá! Descreva o tema do seu projeto de extensão do <strong>Programa de Contexto à Comunidade</strong> (Engenharia de Produção) ou cole o texto de um edital. A IA entrega o projeto completo no ciclo PDCA, com as referências obrigatórias.");
+    "Olá! Descreva o <strong>tema</strong> do seu projeto de extensão do <strong>Programa de Contexto à Comunidade</strong> (Engenharia de Produção), o <strong>público-alvo</strong> e o <strong>problema</strong> que motiva a ação — ou cole o texto de um edital.<br />" +
+    "Se faltar alguma informação essencial, a IA <strong>faz perguntas</strong> antes de gerar. Quando o projeto ficar pronto, você baixa os <strong>documentos oficiais já preenchidos</strong> (PDCA e Relatório Final).");
 }
 
 function chatTyping(on) {
@@ -68,16 +69,36 @@ function chatToFormData(text) {
   };
 }
 
-function chatBuildPrompt(content) {
-  return [
-    "Analise o conteúdo abaixo e gere o projeto de extensão acadêmica COMPLETO seguindo EXATAMENTE o formato de 6 blocos com os marcadores <!--TAB:overview-->, <!--TAB:plan-->, <!--TAB:do-->, <!--TAB:check-->, <!--TAB:act--> e <!--TAB:template-->.",
-    "Siga TODAS as regras do prompt de sistema: ciclo PDCA (Planejar, Executar, Verificar, Agir) e somente as referências bibliográficas obrigatórias.",
-    "O projeto faz parte do PROGRAMA DE CONTEXTO À COMUNIDADE do curso de ENGENHARIA DE PRODUÇÃO: ações de transferência de conhecimento e orientações técnicas para demandas reais da comunidade (prefeituras, associações de bairros, escolas municipais e estaduais, instituições religiosas, ONGs).",
-    "Escolha a área temática mais adequada entre: I - Engenharia do Produto; II - Ergonomia e Segurança do Trabalho; III - Gerência de Produção; IV - Gestão Econômica; V - Transporte e Logística. Todo o conteúdo deve ser coerente com a área escolhida.",
-    "",
-    "CONTEÚDO:",
-    content.slice(0, 12000)
-  ].join("\n");
+function chatProjectFromRaw(raw, text) {
+  const parts = splitByTabs(raw);
+  const hasContent = Object.keys(parts).some(
+    (k) => k !== "sugestoes" && String(parts[k] || "").trim()
+  );
+  if (!hasContent) return null;
+
+  if (!String(parts.sugestoes || "").trim()) {
+    try {
+      parts.sugestoes = fallbackGenerate(chatToFormData(text)).sections.sugestoes;
+    } catch (_) {}
+  }
+
+  const title =
+    (parts.overview.match(/^#\s+(.+)$/m)?.[1] || "").replace("Visão geral do projeto", "").trim() ||
+    "Projeto de Extensão Acadêmica";
+
+  return {
+    title: title,
+    sections: parts,
+    templateFields: completeTemplateFields(parseTemplateBlock(parts.template), chatToFormData(text)),
+    isFallback: false
+  };
+}
+
+function chatShowProject(project, isFallback) {
+  App.project = project;
+  App.generatedTitle = isFallback ? "Projeto de Extensão Acadêmica (modelo pronto)" : project.title;
+  saveProjectToStorage(project, App.generatedTitle);
+  renderProject(project);
 }
 
 async function chatSend() {
@@ -98,53 +119,59 @@ async function chatSend() {
   chatTyping(true);
 
   try {
-    let project = null;
-
-    if (aiIsConfigured()) {
-      const prompt = chatBuildPrompt(text);
-      Chat.history.push({ role: "user", content: prompt });
-      const messages = [{ role: "system", content: SYSTEM_PROMPT }, ...Chat.history];
-      const raw = await aiSend(messages);
-      Chat.history.push({ role: "assistant", content: raw });
-
-      const parts = splitByTabs(raw);
-      if (Object.values(parts).some((s) => s.trim())) {
-        const title =
-          (parts.overview.match(/^#\s+(.+)$/m)?.[1] || "").replace("Visão geral do projeto", "").trim() ||
-          "Projeto de Extensão Acadêmica";
-        project = {
-          title: title,
-          sections: parts,
-          templateFields: completeTemplateFields(parseTemplateBlock(parts.template), chatToFormData(text)),
-          isFallback: false
-        };
-      } else {
-        chatTyping(false);
-        chatAdd("ai", '<span class="chat-msg--err-text">A resposta não veio no formato esperado. Tente novamente em instantes.</span>');
-        return;
-      }
-    } else {
-      project = fallbackGenerate(chatToFormData(text));
+    let userContent = text;
+    if (text.length < 60) {
+      userContent +=
+        "\n\n(As informações essenciais podem estar incompletas. Se faltarem tema, público-alvo ou problema, faça perguntas objetivas em vez de gerar o projeto.)";
     }
+    Chat.history.push({ role: "user", content: userContent });
 
-    App.project = project;
-    App.generatedTitle = project.isFallback ? "Projeto de Extensão Acadêmica (modelo pronto)" : project.title;
-    saveProjectToStorage(project, App.generatedTitle);
-    renderProject(project);
-
+    const messages = [{ role: "system", content: SYSTEM_PROMPT }].concat(Chat.history);
+    const raw = aiIsConfigured() ? await aiSend(messages) : "";
+    Chat.history.push({ role: "assistant", content: raw });
     chatTyping(false);
-    chatAdd("ai",
-      "<strong>Projeto gerado:</strong> " + chatEscape(App.generatedTitle) +
-      (project.isFallback
-        ? '<div class="chat-note">Modo modelo pronto. Preencha o formulário para resultados mais ricos.</div>'
-        : '<div class="chat-note">Projeto estruturado no ciclo PDCA, pronto no painel abaixo.' + (window.__aiModelUsed ? " Modelo usado: " + window.__aiModelUsed + "." : "") + "</div>") +
-      '<div class="chat-project-actions">' +
-      '<button type="button" data-action="view">Ver projeto</button>' +
-      "</div>");
+
+    const project = raw ? chatProjectFromRaw(raw, text) : null;
+
+    if (project) {
+      chatShowProject(project, false);
+      chatAdd("ai",
+        "<strong>Projeto gerado:</strong> " + chatEscape(App.generatedTitle) +
+        '<div class="chat-note">Projeto estruturado no ciclo PDCA, pronto no painel abaixo.' + (window.__aiModelUsed ? " Modelo usado: " + window.__aiModelUsed + "." : "") + "</div>" +
+        '<div class="chat-project-actions">' +
+        '<button type="button" data-action="downloads">Baixar documentos</button>' +
+        '<button type="button" data-action="view">Ver projeto</button>' +
+        "</div>");
+    } else if (raw) {
+      chatAdd("ai", '<div class="rich chat-reply">' + mdToHtml(raw) + "</div>", "chat-msg--info");
+    } else {
+      const p = fallbackGenerate(chatToFormData(text));
+      chatShowProject(p, true);
+      chatAdd("ai",
+        "<strong>Modelo pronto gerado</strong> (sem IA no momento)." +
+        '<div class="chat-note">Preencha o formulário ou tente novamente para um resultado mais rico.</div>' +
+        '<div class="chat-project-actions">' +
+        '<button type="button" data-action="downloads">Baixar documentos</button>' +
+        '<button type="button" data-action="view">Ver projeto</button>' +
+        "</div>");
+    }
   } catch (err) {
     chatTyping(false);
     console.error(err);
-    chatAdd("ai", '<span class="chat-msg--err-text">Erro ao gerar o projeto: ' + chatEscape(err.message) + " Tente novamente em instantes.</span>");
+    let p = null;
+    try {
+      p = fallbackGenerate(chatToFormData(text));
+      chatShowProject(p, true);
+      chatAdd("ai",
+        "<strong>Não consegui gerar com IA:</strong> " + chatEscape(err.message) +
+        '<div class="chat-note">Entreguei o modelo pronto para você não ficar sem resposta. Você pode baixar os documentos abaixo ou tentar novamente.</div>' +
+        '<div class="chat-project-actions">' +
+        '<button type="button" data-action="downloads">Baixar documentos</button>' +
+        '<button type="button" data-action="view">Ver projeto</button>' +
+        "</div>", "chat-msg--err");
+    } catch (_) {
+      chatAdd("ai", "Erro ao gerar o projeto: " + chatEscape(err.message) + " Tente novamente em instantes.", "chat-msg--err");
+    }
   } finally {
     Chat.busy = false;
     sendBtn.disabled = false;
@@ -171,6 +198,9 @@ function chatInit() {
     if (!btn || !App.project) return;
     if (btn.dataset.action === "view") {
       $("#resultado").scrollIntoView({ behavior: "smooth", block: "start" });
+    } else if (btn.dataset.action === "downloads") {
+      const card = $("#downloadsCard");
+      (card || $("#resultado")).scrollIntoView({ behavior: "smooth", block: "start" });
     }
   });
 }

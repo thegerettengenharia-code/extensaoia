@@ -127,7 +127,7 @@ function renderProject(p) {
   };
   const order = ["overview", "plan", "do", "check", "act"];
 
-  doc.innerHTML = order
+  let html = order
     .map((key) => {
       const md = (p.sections && p.sections[key]) || "";
       if (!md.trim()) return "";
@@ -140,6 +140,17 @@ function renderProject(p) {
       );
     })
     .join("");
+
+  const sugestoes = (p.sections && p.sections.sugestoes && String(p.sections.sugestoes).trim()) || "";
+  if (sugestoes) {
+    html +=
+      '<div class="pdca-card pdca-card--sugestoes">' +
+      '<div class="pdca-phase">Sugestões e pontos a validar</div>' +
+      '<div class="rich">' + mdToHtml(sugestoes) + "</div>" +
+      "</div>";
+  }
+
+  doc.innerHTML = html;
 
   if (p.isFallback) {
     toast("Projeto gerado no modo modelo pronto (sem IA).");
@@ -158,6 +169,13 @@ function copyToClipboard() {
   );
 }
 
+function setDownloadsStatus(msg, isErr) {
+  const el = $("#downloadsStatus");
+  if (!el) return;
+  el.textContent = msg;
+  el.classList.toggle("err", !!isErr);
+}
+
 async function downloadProjectDocx(key) {
   const meta = TEMPLATE_META[key];
   if (!meta) return;
@@ -169,19 +187,45 @@ async function downloadProjectDocx(key) {
   }
 
   const btn = key === "pdca" ? $("#btnDocxP") : $("#btnDocxR");
+  const label = btn && $(".btn-label", btn);
   const spin = btn && $(".spinner", btn);
   if (btn) btn.disabled = true;
+  if (label) label.hidden = true;
   if (spin) spin.hidden = false;
 
   try {
     const name = await exportTemplateDoc(meta.file, meta.tokens, p.templateFields);
+    setDownloadsStatus("Baixado: " + name + " — arquivo preenchido com os dados do projeto.", false);
     toast("Baixado: " + name);
   } catch (err) {
-    console.error(err);
-    toast("Erro ao gerar o DOCX: " + err.message, true);
+    console.warn("[download-docx]", err && err.message ? err.message : err);
+    let fallbackName = "";
+    try {
+      exportDoc({ title: App.generatedTitle || "projeto-extensao", sections: p.sections });
+      fallbackName = ".doc";
+    } catch (e2) {
+      console.error(e2);
+    }
+    setDownloadsStatus(
+      "Não foi possível gerar o DOCX oficial (" + (err && err.message ? err.message : "erro") + ")." +
+      (fallbackName ? " Baixamos uma versão .doc com o conteúdo completo do projeto." : ""),
+      true
+    );
+    toast("DOCX oficial indisponível" + (fallbackName ? " — baixado como .doc." : "."), true);
   } finally {
     if (btn) btn.disabled = false;
+    if (label) label.hidden = false;
     if (spin) spin.hidden = true;
+  }
+}
+
+function preloadDocx() {
+  try {
+    loadDocxLib().catch(() => {
+      setDownloadsStatus("Biblioteca DOCX indisponível (verifique a internet). Os downloads sairão em formato .doc.", true);
+    });
+  } catch (_) {
+    setDownloadsStatus("Biblioteca DOCX indisponível (verifique a internet). Os downloads sairão em formato .doc.", true);
   }
 }
 
@@ -208,4 +252,5 @@ document.addEventListener("DOMContentLoaded", () => {
   loadModelUI();
   initModel();
   initActions();
+  preloadDocx();
 });
